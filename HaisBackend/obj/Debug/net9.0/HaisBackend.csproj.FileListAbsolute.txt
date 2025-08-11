@@ -30,3 +30,4 @@ C:\Users\AyushDevkaran\HaisWebApp\HaisWebApp\HaisBackend\obj\Debug\net9.0\refint
 C:\Users\AyushDevkaran\HaisWebApp\HaisWebApp\HaisBackend\obj\Debug\net9.0\HaisBackend.pdb
 C:\Users\AyushDevkaran\HaisWebApp\HaisWebApp\HaisBackend\obj\Debug\net9.0\HaisBackend.genruntimeconfig.cache
 C:\Users\AyushDevkaran\HaisWebApp\HaisWebApp\HaisBackend\obj\Debug\net9.0\ref\HaisBackend.dll
+C:\Users\AyushDevkaran\HaisWebApp\HaisWebApp\HaisBackend\obj\Debug\net9.0\HaisBackend.sourcelink.json

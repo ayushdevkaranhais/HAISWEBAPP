@@ -1,6 +1,5 @@
-// hais-frontend/src/api.js
-import axios from 'axios';
+import axios from 'axios'
 
 export default axios.create({
-  baseURL: 'https://localhost:5001/api', // match your backend
-});
+  baseURL: 'http://localhost:5079', // Use HTTP for local development
+})

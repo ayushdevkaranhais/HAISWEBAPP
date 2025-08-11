@@ -20,19 +20,19 @@ namespace HAIS.Backend.Controllers
 
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        public Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             // TODO: Replace with real authentication logic
             // For now, accept two hardcoded users for demo
             if ((request.Email == "admin@example.com" && request.Password == "Admin@123") ||
                 (request.Email == "user@example.com" && request.Password == "User@1234"))
             {
-                var role = request.Email.StartsWith("admin") ? "admin" : "user";
+                var role = request.Email.StartsWith("admin") ? Roles.Admin : Roles.User;
                 // Simulate JWT
                 var token = "fake-jwt-token";
-                return Ok(new { token, user = new { email = request.Email, role } });
+                return Task.FromResult<IActionResult>(Ok(new { token, user = new { email = request.Email, role } }));
             }
-            return Unauthorized("Invalid credentials");
+            return Task.FromResult<IActionResult>(Unauthorized("Invalid username or password."));
         }
 
         public class LoginRequest
@@ -66,5 +66,11 @@ namespace HAIS.Backend.Controllers
 
             return Ok($"✅ {count} user stories saved.");
         }
+    }
+
+    public static class Roles
+    {
+        public const string Admin = "admin";
+        public const string User = "user";
     }
 }
