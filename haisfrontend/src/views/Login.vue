@@ -1,31 +1,28 @@
 <template>
-  <div class="login-container">
-    <div class="login-header">
-      <h1>Welcome to HAIS :)</h1>
-    </div>
-    <div class="login-content">
-      <div class="login-image">
-        <!-- Image placeholder -->
+  <div class="hais-login-root">
+    <div class="hais-login-left">
+      <div class="hais-welcome">
+        <h1>Welcome to HAIS :)</h1>
+        <img class="hais-illustration" src="https://assets10.lottiefiles.com/packages/lf20_yr6zz3wv.json" alt="Welcome Illustration" />
       </div>
-      <div class="login-form">
+    </div>
+    <div class="hais-login-right">
+      <div class="hais-login-form">
+        <div class="hais-logo">high<span>(alt)</span></div>
         <h2>Login</h2>
-        <form @submit.prevent="handleLogin">
-          <div class="form-group">
-            <label for="username">
-              <span class="icon">👤</span>
-              Username
-            </label>
-            <input type="text" id="username" v-model="username" placeholder="Username" required />
+        <form @submit.prevent="login">
+          <div class="hais-input-group">
+            <span class="hais-icon"><i class="fas fa-user"></i></span>
+            <input v-model="email" type="email" placeholder="Username" required />
           </div>
-          <div class="form-group">
-            <label for="password">
-              <span class="icon">🔒</span>
-              Password
-            </label>
-            <input type="password" id="password" v-model="password" placeholder="Password" required />
+          <div class="hais-input-group">
+            <span class="hais-icon"><i class="fas fa-lock"></i></span>
+            <input v-model="password" type="password" placeholder="Password" required />
+            <span class="hais-icon hais-eye"><i class="fas fa-eye"></i></span>
           </div>
-          <button type="submit" class="login-button">Login</button>
+          <button type="submit">Login</button>
         </form>
+        <div v-if="error" class="hais-error">{{ error }}</div>
       </div>
     </div>
   </div>
@@ -34,18 +31,17 @@
 <script>
 import { ref } from 'vue';
 import api from '../api';
-import { Roles } from '../constants/roles';
 
 export default {
   name: 'LoginPage',
   setup() {
-    const username = ref('');
+    const email = ref('');
     const password = ref('');
 
-    const handleLogin = async () => {
+    const login = async () => {
       try {
         const response = await api.post('/api/OpenProject/login', {
-          email: username.value,
+          email: email.value,
           password: password.value,
         });
 
@@ -54,13 +50,10 @@ export default {
         localStorage.setItem('userRole', user.role);
         localStorage.setItem('token', token);
 
-        // Redirect based on role
-        if (user.role === Roles.Admin) {
+        if (user.role === 'admin') {
           window.location.href = '/dashboard';
-        } else if (user.role === Roles.User) {
-          window.location.href = '/employee-dashboard';
         } else {
-          alert('Unknown role. Please contact support.');
+          window.location.href = '/employee-dashboard';
         }
       } catch (error) {
         alert('Invalid credentials. Please try again.');
@@ -68,86 +61,117 @@ export default {
     };
 
     return {
-      username,
+      email,
       password,
-      handleLogin,
+      login,
     };
   },
 };
 </script>
-
 <style scoped>
-.login-container {
+.hais-login-root {
+  min-height: 100vh;
+  display: flex;
+  background: linear-gradient(135deg, #4a168d 0%, #6aa6c2 100%);
+}
+.hais-login-left {
+  flex: 1.2;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  background-color: #f5f5f5;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding-left: 5vw;
 }
-
-.login-header {
-  margin-bottom: 20px;
-  text-align: center;
-  color: #333;
+.hais-welcome h1 {
+  color: #1a7ca7;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  font-weight: 700;
 }
-
-.login-content {
+.hais-illustration {
+  width: 350px;
+  max-width: 90vw;
+  margin-top: 1rem;
+}
+.hais-login-right {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: white;
-  border: 1px solid #ddd;
+}
+.hais-login-form {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.10);
+  padding: 2.5rem 2.5rem 2rem 2.5rem;
+  min-width: 350px;
+  max-width: 400px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.hais-logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a7ca7;
+  margin-bottom: 2.5rem;
+  letter-spacing: 1px;
+}
+.hais-logo span {
+  color: #38b6ff;
+}
+h2 {
+  color: #1a7ca7;
+  margin-bottom: 2rem;
+  font-weight: 600;
+}
+.hais-input-group {
+  display: flex;
+  align-items: center;
+  background: #f5f7fa;
   border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.login-image img {
-  max-width: 300px;
-  margin-right: 20px;
-}
-
-.login-form {
-  max-width: 300px;
-}
-
-.login-form h2 {
-  margin-bottom: 20px;
-  color: #333;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-  color: #555;
-}
-
-.form-group input {
+  margin-bottom: 1.2rem;
+  padding: 0.5rem 1rem;
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
+  border: 1px solid #e0eafc;
 }
-
-.login-button {
-  width: 100%;
-  padding: 10px;
-  background-color: #667eea;
-  color: white;
+.hais-input-group input {
   border: none;
-  border-radius: 4px;
-  font-size: 16px;
+  background: transparent;
+  outline: none;
+  font-size: 1rem;
+  flex: 1;
+  padding: 0.5rem 0.5rem;
+}
+.hais-icon {
+  color: #1a7ca7;
+  margin-right: 0.5rem;
+  font-size: 1.1rem;
+}
+.hais-eye {
+  margin-left: 0.5rem;
   cursor: pointer;
 }
-
-.login-button:hover {
-  background-color: #764ba2;
+button {
+  width: 100%;
+  padding: 0.75rem;
+  background: linear-gradient(90deg, #1a7ca7 0%, #38b6ff 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: background 0.2s;
+}
+button:hover {
+  background: linear-gradient(90deg, #38b6ff 0%, #1a7ca7 100%);
+}
+.hais-error {
+  color: #e74c3c;
+  margin-top: 1rem;
+  font-size: 0.95rem;
 }
 </style>

@@ -47,12 +47,7 @@
               Assigned Tasks
             </router-link>
           </li>
-          <li class="nav-item">
-            <router-link to="/add-day-logs" class="nav-link" :class="{ active: $route.path === '/add-day-logs' }">
-              <span class="nav-icon">📝</span>
-              Add Day Logs
-            </router-link>
-          </li>
+          
         </template>
 
         <!-- Common navigation items -->
@@ -68,6 +63,14 @@
             HAIS Calendar
           </router-link>
         </li>
+        <template v-if="userRole === 'user'">
+          <li class="nav-item">
+            <router-link to="/add-day-logs" class="nav-link" :class="{ active: $route.path === '/add-day-logs' }">
+              <span class="nav-icon">📝</span>
+              Add Day Logs
+            </router-link>
+          </li>
+        </template>
         <li class="nav-item">
           <router-link to="/day-logs" class="nav-link" :class="{ active: $route.path === '/day-logs' }">
             <span class="nav-icon">📝</span>
@@ -80,12 +83,13 @@
             My Profile
           </router-link>
         </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link" @click.prevent="$emit('logout')">
+            <span class="nav-icon">🚪</span>
+            Logout
+          </a>
+        </li>
       </ul>
-
-      <!-- Logout button -->
-      <div class="logout-button">
-        <button @click="handleLogout" class="logout">Logout</button>
-      </div>
     </nav>
   </aside>
 </template>
@@ -119,33 +123,40 @@ export default {
   top: 0;
   width: 250px;
   height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background-color: #F0F0F0; /* Updated color */
+  color: #111;
   z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar, .sidebar * {
+  color: #111 !important;
 }
 
 .sidebar-header {
-  padding: 20px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 24px 20px 16px 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .logo {
-  font-size: 24px;
-  font-weight: 300;
-  margin: 0;
+  font-size: 35px;
+  
 }
 
 .logo-text {
-  font-weight: 400;
+  font-weight: normal;
 }
 
 .logo-accent {
-  color: #64b5f6;
-  font-weight: 300;
+  color: #1A8CAB !important;
+  font-weight: normal;
 }
 
 .sidebar-nav {
-  padding: 20px 0;
+  padding: 20px 0 0 0;
 }
 
 .nav-list {
@@ -155,54 +166,55 @@ export default {
 }
 
 .nav-item {
-  margin: 0;
+  margin: 3px 0; /* Reduced gap between nav links */
 }
 
 .nav-link {
   display: flex;
   align-items: center;
-  padding: 12px 20px;
-  color: rgba(255, 255, 255, 0.8);
+  padding: 4px 20px;
+  color: #111 !important;
   text-decoration: none;
-  transition: all 0.3s ease;
-  border-left: 3px solid transparent;
+  transition: all 0.25s cubic-bezier(.4,2,.3,1);
+  border-left: 0px solid transparent;
+  border-radius: 5px;
+  margin-bottom: 11px;
+  font-size: 14px;
+  font-weight: normal;
+  letter-spacing: 1px;
+  box-shadow: none;
+  background: transparent;
 }
 
 .nav-link:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: white;
+  background: #1a8cab9c !important;
+  color: #ffffff !important;
+  transform: translateX(1px) scale(1.06);
+  box-shadow: 0 2px 16px 0 rgba(85, 84, 84, 0.13);
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
 .nav-link.active {
-  background-color: rgba(255, 255, 255, 0.15);
-  border-left-color: #64b5f6;
-  color: white;
+  background: #1A8CAB !important;
+  border-left: 3px solid #1A8CAB;
+  color: #ffffff !important;
+  transform: scale(1.07);
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
+/* Added gap between nav icons and nav links */
 .nav-icon {
-  margin-right: 12px;
+  margin-left: 0px;
+  margin-right: 15px; /* Increased gap */
   font-size: 18px;
   width: 20px;
   text-align: center;
-}
-
-.logout-button {
-  padding: 20px;
-  text-align: center;
-}
-
-.logout {
-  background-color: #ff4d4d;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 10px 20px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.logout:hover {
-  background-color: #ff1a1a;
 }
 
 @media (max-width: 768px) {
@@ -210,10 +222,8 @@ export default {
     transform: translateX(-100%);
     transition: transform 0.3s ease;
   }
-
   .sidebar.open {
     transform: translateX(0);
   }
 }
 </style>
-
