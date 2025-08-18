@@ -1,9 +1,8 @@
 <template>
   <div class="our-team">
-    <div class="page-header">
-      <h1>Our Team</h1>
+      <div class="page-header-title">
+        <h1>Our Team</h1>
     </div>
-    
     <div class="team-grid">
       <div class="team-member-card" v-for="member in teamMembers" :key="member.id">
         <img :src="member.avatar" :alt="member.name" class="member-image" />
@@ -69,7 +68,16 @@ export default {
           avatar: 'https://via.placeholder.com/100x100/e91e63/ffffff?text=SK',
           status: 'online',
           statusText: 'Online (You)'
-        }
+        },
+        {
+          id: 6,
+          name: 'A.D',
+          position: 'Junior Developer',
+          email: 'A.D@company.com',
+          avatar: 'https://via.placeholder.com/100x100/e91e63/ffffff?text=SK',
+          status: 'online',
+          statusText: 'Online (You)'
+        },
       ]
     }
   }
@@ -77,9 +85,21 @@ export default {
 </script>
 
 <style scoped>
+.page-header-title{
+  margin-bottom: 12px;
+  
+}
+.page-header-title h1{
+  font-size: 24px;
+  color: #1A8CAB;
+  
+  
+}
 .our-team {
-  max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
+  padding: 1px 38px 24px;
+  box-sizing: border-box;
 }
 
 .page-header h1 {
@@ -89,14 +109,16 @@ export default {
 
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+  margin-top: 20px; /* Add margin to create space at the top */
 }
 
 .team-member-card {
-  background: white;
+  background: #EAEAEA; /* Updated background color */
   border-radius: 12px;
   padding: 20px;
+  height: 220px;
   text-align: center;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   border: 1px solid #e0e0e0;
@@ -104,8 +126,8 @@ export default {
 }
 
 .team-member-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(3px);
+  background: linear-gradient(90deg, #cce5f6 0%, #f7f7f7 100%);
 }
 
 .member-image {
@@ -172,3 +194,4 @@ export default {
   }
 }
 </style>
+

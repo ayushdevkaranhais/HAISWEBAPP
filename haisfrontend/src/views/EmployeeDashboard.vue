@@ -1,159 +1,91 @@
 <template>
-  <div class="employee-dashboard">
+  <div class="dashboard">
     <!-- Header Section -->
     <div class="dashboard-header">
       <div class="welcome-section">
-        <h1>Hello, Shivangi!</h1>
-        <p>Hope you are having a productive day :)</p>
+        <h1 class="dashboard-title">Hello, Shivangi!</h1>
+        <p class="dashboard-subtitle">Hope you are having a productive day :)</p>
       </div>
       <div class="user-avatar">
-        <img src="https://via.placeholder.com/50x50/e91e63/ffffff?text=S" alt="User Avatar" />
+        <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="User Avatar" class="avatar-img" />
       </div>
     </div>
 
-    <!-- Main Dashboard Content -->
-    <div class="dashboard-content">
-      <!-- Top Row -->
-      <div class="dashboard-row">
-        <!-- Latest Assign Task -->
-        <div class="dashboard-card latest-tasks-card">
-          <div class="card-header">
-            <h3>Latest Assign Task</h3>
-            <button class="btn btn-link">Check More</button>
-          </div>
-          <div class="tasks-list">
-            <div class="task-item" v-for="task in assignedTasks" :key="task.id">
-              <div class="task-icon">⚙️</div>
-              <span class="task-name">{{ task.name }}</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Add Leave -->
-        <div class="dashboard-card add-leave-card">
-          <h3>Add Leave</h3>
-          <form @submit.prevent="submitLeave" class="leave-form">
-            <div class="form-group">
-              <select v-model="leaveForm.days" class="form-select">
-                <option value="">Select Days</option>
-                <option value="1">1 Day</option>
-                <option value="2">2 Days</option>
-                <option value="3">3 Days</option>
-                <option value="5">5 Days</option>
-              </select>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <input 
-                  v-model="leaveForm.from" 
-                  type="date" 
-                  class="form-input"
-                  placeholder="From"
-                />
-              </div>
-              <div class="form-group">
-                <input 
-                  v-model="leaveForm.till" 
-                  type="date" 
-                  class="form-input"
-                  placeholder="Till"
-                />
-              </div>
-            </div>
-            <div class="form-group">
-              <select v-model="leaveForm.type" class="form-select">
-                <option value="">Leave type</option>
-                <option value="sick">Sick Leave</option>
-                <option value="vacation">Vacation</option>
-                <option value="personal">Personal Leave</option>
-                <option value="emergency">Emergency Leave</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <textarea 
-                v-model="leaveForm.description" 
-                placeholder="Leave Description"
-                class="form-textarea"
-                rows="3"
-              ></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Update</button>
-          </form>
+    <!-- Top Cards -->
+    <div class="dashboard-row top-cards">
+      
+      <!-- Latest Assign Task -->
+      <div class="latest-task-card">
+        <h3>Latest Assign Task</h3>
+        <ul class="task-list">
+          <li class="task-item">
+            <span class="task-icon">⚙️</span>
+            Admin Website
+          </li>
+          <li class="task-item">
+            <span class="task-icon">⚙️</span>
+            Maa Bala Sundari Ji Website
+          </li>
+          <li class="task-item">
+            <span class="task-icon">⚙️</span>
+            Gj Website
+          </li>
+        </ul>
+        <div class="card-actions">
+          <button class="btn btn-primary" @click="navigateTo('assigned-tasks')">Check More</button>
         </div>
       </div>
 
-      <!-- Add Today's Log Section -->
-      <div class="dashboard-row">
-        <div class="dashboard-card add-log-card">
-          <h3>Add Today's Log</h3>
-          <form @submit.prevent="addLog" class="log-form">
-            <div class="form-row">
-              <div class="form-group">
-                <input 
-                  v-model="logForm.date" 
-                  type="date" 
-                  class="form-input"
-                />
-              </div>
-              <div class="form-group">
-                <select v-model="logForm.project" class="form-select">
-                  <option value="">Select Project</option>
-                  <option value="admin-website">Admin Website</option>
-                  <option value="maa-bala-sundari">Maa Bala Sundari Ji Website</option>
-                  <option value="gj-website">GJ Website</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <select v-model="logForm.subProject" class="form-select">
-                  <option value="">Select Sub-project</option>
-                  <option value="frontend">Frontend Development</option>
-                  <option value="backend">Backend Development</option>
-                  <option value="design">UI/UX Design</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <select v-model="logForm.task" class="form-select">
-                  <option value="">Select Task</option>
-                  <option value="homepage">Homepage Development</option>
-                  <option value="dashboard">Dashboard Creation</option>
-                  <option value="testing">Testing & QA</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group task-details">
-                <textarea 
-                  v-model="logForm.details" 
-                  placeholder="Add Task details"
-                  class="form-textarea"
-                  rows="4"
-                ></textarea>
-              </div>
-              <div class="form-group time-group">
-                <input 
-                  v-model="logForm.taskId" 
-                  type="text" 
-                  placeholder="Task Id"
-                  class="form-input"
-                />
-                <div class="hours-spent">
-                  <label>Hours Spent</label>
-                  <input 
-                    v-model="logForm.hoursSpent" 
-                    type="number" 
-                    step="0.5"
-                    min="0"
-                    max="24"
-                    class="form-input hours-input"
-                  />
-                </div>
-              </div>
-            </div>
-            <div class="log-actions">
-              <button type="submit" class="btn btn-primary">Update</button>
-            </div>
-          </form>
-        </div>
+      <!-- Add Leave -->
+      <div class="add-leave-card">
+        <h3>Add Leave</h3>
+        <form @submit.prevent="submitLeave">
+          <div class="form-row">
+            <select class="form-select">
+              <option>Select Days</option>
+            </select>
+            <input type="date" class="form-input" placeholder="From" />
+            <input type="date" class="form-input" placeholder="Till" />
+            <select class="form-select">
+              <option>Leave type</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <input type="text" placeholder="Leave Description" class="form-input" />
+          </div>
+          <div class="card-actions">
+            <button type="submit" class="btn btn-primary">Update</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Add Today's Log -->
+    <div class="dashboard-row">
+      <div class="add-log-card">
+        <h3>Add Today's Log</h3>
+        <form @submit.prevent="submitLog">
+          <div class="form-row">
+            <input type="date" class="form-input" />
+            <select class="form-select">
+              <option>Select Project</option>
+            </select>
+            <select class="form-select">
+              <option>Select Sub-project</option>
+            </select>
+            <select class="form-select">
+              <option>Select Task</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <input type="text" placeholder="Add Task details" class="form-input" />
+            <input type="text" placeholder="Task id" class="form-input" />
+            <input type="text" placeholder="Hours Spend" class="form-input" />
+          </div>
+          <div class="card-actions">
+            <button type="submit" class="btn btn-primary">Update</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -225,33 +157,40 @@ export default {
 </script>
 
 <style scoped>
-.employee-dashboard {
-  max-width: 1200px;
+.dashboard {
+  width: 100%;
   margin: 0 auto;
+  padding: 30px 38px 25px;
+  box-sizing: border-box;
+  background-color: #F0F0F0; /* Updated background color for the dashboard */
 }
 
 .dashboard-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
+  align-items: flex-start;
+  margin-bottom: 38px;
+  flex-wrap: wrap;
 }
 
-.welcome-section h1 {
-  font-size: 28px;
+.dashboard-title {
+  font-size: 24px;
+  font-weight: normal;
   color: #333;
-  margin: 0 0 5px 0;
 }
 
-.welcome-section p {
+.dashboard-subtitle {
+  font-size: 14px;
   color: #666;
-  margin: 0;
+  margin-top: 4px;
 }
 
 .user-avatar img {
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .dashboard-content {
@@ -262,175 +201,288 @@ export default {
 
 .dashboard-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 20px;
-  align-items: start;
+  grid-template-columns: 1fr;
+  gap: 22px;
+  margin-top: 22px;
 }
 
 .dashboard-card {
   background: white;
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e0e0e0;
-}
-
-.dashboard-card h3 {
-  margin: 0 0 20px 0;
-  color: #333;
-  font-size: 18px;
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.card-header h3 {
-  margin: 0;
-}
-
-/* Tasks List */
-.tasks-list {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
   gap: 12px;
+}
+
+.unified-card {
+  background: linear-gradient(135deg, #dbf6f3, #eaeaea8a);
+}
+
+.assign-task-card {
+  background: linear-gradient(135deg, #d6ecf4, #eaeaea8a);
+  width: 100%;
+}
+
+/* Buttons */
+.btn {
+  padding: 8px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  transition: all 0.3s ease;
+}
+.btn-primary {
+  background-color: #1A8CAB;
+  color: white;
+}
+.btn-primary:hover {
+  background-color: #0a5158;
+}
+
+/* Form elements */
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.form-input,
+.form-select {
+  width: 100%;
+  padding: 6px 10px; /* Further reduced padding */
+  border: 1px solid #d0d5dd;
+  border-radius: 15px; /* More compact border radius */
+  font-size: 10px; /* Smaller font size */
+  background-color: transparent;
+  color: #3b3b3bda;
+  outline: none;
+  transition: border 0.3s ease;
+}
+.form-input:focus,
+.form-select:focus {
+  border-color: #000000b9;
+}
+
+/* Adjusted left padding for all user input boxes in Add Leave card */
+.add-leave-card .form-input,
+.add-leave-card .form-select {
+  padding-left: 10px; /* Set left padding */
+  margin-left: 6px; /* Added left margin for spacing */
+}
+
+/* Adjusted left padding for all user input boxes in Add Today's Log card */
+.add-log-card .form-input,
+.add-log-card .form-select {
+  padding-left: 10px; /* Set consistent left padding */
+  
+}
+
+/* Task list */
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 20px;
+}
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  color: #333;
+  font-size: 15px;
+}
+.task-icon {
+  font-size: 16px;
+  
+}
+.latest-task-card {
+  width: 313px;
+  height: 268px;
+  background: linear-gradient(135deg, #D6ECF4, rgba(234, 234, 234, 0.54));
+  border-radius: 16px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Updated font-weight and font-size for Latest Assign Task */
+.latest-task-card h3 {
+  font-weight: normal;
+  font-size: 20px;
+  padding-left: 8px; /* Added left padding for spacing */
+}
+
+/* Further reduced margin-bottom between Latest Assign Task heading and its content */
+.latest-task-card h3 {
+  margin-bottom: 4px; /* Further reduced margin */
+}
+
+.add-leave-card {
+  flex: 1;
+  background: linear-gradient(135deg, #D6ECF4, rgba(234, 234, 234, 0.54));
+  height: 268px;
+  border-radius: 16px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 268px;
+}
+
+.add-leave-card h3 {
+  font-weight: normal;
+  font-size: 20px;
+  margin-bottom: 12px; /* Added gap for better visual appeal */
+  padding-left: 9px; /* Added left padding for spacing */
+}
+
+/* Reduced margin-bottom between Add Leave and input fields */
+.add-leave-card .form-row {
+  margin-bottom: 20px; /* Reduced margin */
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
 }
 
 .task-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 8px 0;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  
 }
 
 .task-icon {
   font-size: 16px;
 }
 
-.task-name {
-  color: #333;
-  font-size: 14px;
-}
-
-/* Form Styles */
-.form-group {
-  margin-bottom: 15px;
-  position: relative;
-}
-
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
-  margin-bottom: 15px;
-}
-
-.form-input,
-.form-select,
-.form-textarea {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  font-size: 14px;
-  background: #f8f9fa;
-}
-
-.form-input:focus,
-.form-select:focus,
-.form-textarea:focus {
-  outline: none;
-  border-color: #4a90e2;
-  background: white;
-}
-
-/* Button Styles */
-.btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.3s ease;
-}
-
-.btn-primary {
-  background: #4a90e2;
-  color: white;
-}
-
-.btn-primary:hover {
-  background: #357abd;
-}
-
-.btn-link {
-  background: transparent;
-  color: #4a90e2;
-  text-decoration: none;
-  border: none;
-  padding: 5px 10px;
-}
-
-/* Add Today's Log specific styles */
-.add-log-card {
-  grid-column: 1 / -1;
-}
-
-.task-details {
-  grid-row: span 2;
-}
-
-.time-group {
+.top-cards {
   display: flex;
-  flex-direction: column;
-  gap: 15px;
+  gap: 22px;
+  flex-wrap: wrap;
 }
 
-.hours-spent label {
-  display: block;
-  margin-bottom: 8px;
-  color: #333;
-  font-weight: 500;
-  font-size: 14px;
-}
-
-.hours-input {
-  width: 100px;
-}
-
-.log-actions {
+.card-actions {
+  margin-top: auto;
   display: flex;
   justify-content: flex-end;
-  margin-top: 15px;
 }
 
-/* Leave form specific styles */
-.add-leave-card {
-  background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+.add-log-card {
+  width: 100%;
+  max-width: 100%;
+  min-width: 320px;
+  height: auto;
+  background: linear-gradient(135deg, #DDE5F8, rgba(234, 234, 234, 0.54));
+  border-radius: 16px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0 auto;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .dashboard-row {
-    grid-template-columns: 1fr;
+/* Ensured responsiveness for Add Leave and Add Today's Log cards */
+.add-leave-card,
+.add-log-card {
+  flex: 1;
+  min-width: 300px; /* Set a minimum width for responsiveness */
+  max-width: 100%; /* Allow cards to scale within the container */
+  box-sizing: border-box; /* Ensure padding and border are included in width */
+}
+
+/* Adjusting gap between all card headings and their content */
+.latest-task-card h3,
+.add-leave-card h3,
+.add-log-card h3 {
+  margin-bottom: 15px; /* Updated to look impressive */
+}
+
+.add-leave-card h3 {
+  margin-bottom: 1px;
+}
+
+/* Adding gap between heading and content in Assign Task card */
+.latest-task-card h3 {
+  margin-bottom: 15px; /* Added gap for better visual appeal */
+}
+
+
+@media (min-width: 1200px) {
+  .add-log-card {
+    padding: 32px 48px;
   }
-  
-  .form-row {
-    grid-template-columns: 1fr;
+  .add-log-card .form-row {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
   }
-  
-  .dashboard-header {
-    flex-direction: column;
-    text-align: center;
-    gap: 15px;
+  .add-log-card form {
+    max-width: 100%;
   }
-  
-  .time-group {
-    flex-direction: row;
-    align-items: end;
+}
+
+@media (min-width: 1600px) {
+  .add-log-card {
+    padding: 40px 64px;
   }
+}
+
+.add-log-card h3 {
+font-weight: normal;
+  font-size: 20px;
+  margin-bottom: 20px; /* Added gap for better visual appeal */
+
+}
+
+.add-log-card .form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.add-leave-card .card-actions {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-end;
+}
+.add-log-card .card-actions {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex end;
+}
+
+
+/* Adjusted left padding for Add Today's Log card heading */
+.add-log-card h3 {
+  padding-left: 8px; /* Added left padding for spacing */
+  margin-left: 6px; /* Added left margin for spacing */
+}
+
+/* Reduced gap between Add Today's Log heading and card header */
+.add-log-card h3 {
+  margin-bottom: 20px; /* Adjusted to match Add Leave card */
 }
 </style>
+

@@ -3,68 +3,64 @@
     <!-- Header Section -->
     <div class="dashboard-header">
       <div class="welcome-section">
-        <h1>Hello, Anuj!</h1>
-        <p>Hope you are having a productive day :)</p>
+        <h1 class="dashboard-title">Hello, Anuj!</h1>
+        <p class="dashboard-subtitle">Hope you are having a productive day :)</p>
       </div>
       <div class="user-avatar">
-        <img src="https://via.placeholder.com/50x50/4a90e2/ffffff?text=A" alt="User Avatar" />
+        <img src="https://via.placeholder.com/50x50/4a90e2/ffffff?text=A" alt="User Avatar" class="avatar-img" />
       </div>
     </div>
 
     <!-- Main Dashboard Content -->
     <div class="dashboard-content">
-      <!-- Top Row -->
-      <div class="dashboard-row">
+      <!-- Top 3 Cards in a Row -->
+      <div class="dashboard-row top-cards">
         <!-- Create New Project -->
-        <div class="dashboard-card create-project-card" style="height: 300px;">
+        <div class="dashboard-card unified-card">
           <h3>Create New Project</h3>
           <form @submit.prevent="createProject" class="project-form">
             <div class="form-group">
-              <input 
-                v-model="projectForm.name" 
-                type="text" 
-                placeholder="Name of the Project"
-                class="form-input"
-              />
+              <input v-model="projectForm.name" type="text" placeholder="Name of the Project" class="form-input" />
             </div>
             <div class="form-group">
-              <textarea 
-                v-model="projectForm.description" 
-                placeholder="Description"
-                class="form-textarea"
-                rows="3"
-              ></textarea>
+              <textarea v-model="projectForm.description" placeholder="Description" class="form-textarea" rows="4"></textarea>
             </div>
-            <button type="submit" class="btn btn-primary" style="float: right;">Create</button>
+            <div class="card-actions">
+              <button type="submit" class="btn btn-primary">Create</button>
+            </div>
           </form>
         </div>
 
         <!-- Employees -->
-        <div class="dashboard-card employees-card" style="height: 300px;">
-          <div class="card-header">
-            <h3>Employees</h3>
-          </div>
-          <div class="employees-list">
-            <div class="employee-item" v-for="employee in employees" :key="employee.id">
+        <div class="dashboard-card employee-card">
+          <h3>Employees</h3>
+          <div class="employee-list">
+            <div class="employee-row" v-for="employee in employees" :key="employee.id">
               <img :src="employee.avatar" :alt="employee.name" class="employee-avatar" />
               <span class="employee-name">{{ employee.name }}</span>
             </div>
           </div>
-          <button class="btn btn-primary" style="float: right;margin-top: 40px">All Employees</button>
+          <div class="card-actions">
+            <button class="btn btn-employees">All Employees</button>
+          </div>
         </div>
 
         <!-- Leave Applicants -->
-        <div class="dashboard-card leave-card" style="height: 300px;">
+        <div class="dashboard-card leave-applicant-card">
           <h3>Leave Applicants</h3>
-          <div class="leave-applicant">
-            <img src="https://via.placeholder.com/40x40/4a90e2/ffffff?text=SK" alt="Shivangi Kumar" class="leave-avatar" />
-            <p class="leave-name">Shivangi Kumar</p>
-          </div>
-           <div class="leave-info">
+          <div class="leave-details">
+            <img
+              src="https://randomuser.me/api/portraits/women/45.jpg"
+              alt="Shivangi Kumar"
+              class="leave-avatar"
+            />
+            <div class="leave-info">
+              <p class="leave-name">Shivangi Kumar</p>
               <p class="leave-description">Leave description</p>
               <p class="leave-days">No. of days</p>
             </div>
-          <div class="leave-actions" style="float: right;margin-top: 70px">
+          </div>
+          <div class="card-actions">
             <button class="btn btn-success">Approve</button>
             <button class="btn btn-danger">Deny</button>
           </div>
@@ -81,11 +77,7 @@
           <form @submit.prevent="assignTask" class="task-form">
             <div class="form-row">
               <div class="form-group">
-                <input 
-                  v-model="taskForm.startDate" 
-                  type="date" 
-                  class="form-input"
-                />
+                <input v-model="taskForm.startDate" type="date" class="form-input" />
               </div>
               <div class="form-group">
                 <select v-model="taskForm.project" class="form-select">
@@ -102,22 +94,12 @@
                 </select>
               </div>
               <div class="form-group">
-                <input 
-                  v-model="taskForm.assignees" 
-                  type="text" 
-                  placeholder="Add Assignees"
-                  class="form-input"
-                />
+                <input v-model="taskForm.assignees" type="text" placeholder="Add Assignees" class="form-input" />
               </div>
             </div>
             <div class="form-row">
               <div class="form-group">
-                <input 
-                  v-model="taskForm.taskId" 
-                  type="text" 
-                  placeholder="Task Id"
-                  class="form-input"
-                />
+                <input v-model="taskForm.taskId" type="text" placeholder="Task Id" class="form-input" />
               </div>
               <div class="form-group">
                 <select v-model="taskForm.status" class="form-select">
@@ -128,24 +110,14 @@
                 </select>
               </div>
               <div class="form-group">
-                <input 
-                  v-model="taskForm.dueDate" 
-                  type="date" 
-                  class="form-input"
-                />
+                <input v-model="taskForm.dueDate" type="date" class="form-input" />
               </div>
               <div class="form-group task-description">
-                <textarea 
-                  v-model="taskForm.description" 
-                  placeholder="Task Description"
-                  class="form-textarea"
-                  rows="3"
-                ></textarea>
-                <div class="task-actions">
-                  <span class="save-icon">💾</span>
-                  <button type="submit" class="btn btn-primary">Update</button>
-                </div>
+                <textarea v-model="taskForm.description" placeholder="Task Description" class="form-textarea" rows="3"></textarea>
               </div>
+            </div>
+            <div class="card-actions">
+              <button type="submit" class="btn btn-primary">Update</button>
             </div>
           </form>
         </div>
@@ -211,34 +183,54 @@ export default {
 </script>
 
 <style scoped>
+/* Set font-weight to normal for all content on the page */
+* {
+  font-weight: normal;
+}
+
 .dashboard {
-  max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
+  padding: 30px 38px 25px;
+  box-sizing: border-box;
 }
 
 .dashboard-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
+  align-items: flex-start;
+  margin-bottom: 38px;
+  flex-wrap: wrap;
 }
 
-.welcome-section h1 {
-  font-size: 28px;
-  color: #333;
-  margin: 0 0 5px 0;
-}
-
-.welcome-section p {
-  color: #666;
+.welcome-section h1.dashboard-title {
+  font-size: 24px;
+  font-weight: normal;
   margin: 0;
+  color: #333;
+}
+
+.welcome-section p.dashboard-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-top: 4px;
+}
+
+.user-avatar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .user-avatar img {
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+/* ...your existing styles below remain unchanged */
 
 .dashboard-content {
   display: flex;
@@ -248,41 +240,64 @@ export default {
 
 .dashboard-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-  align-items: start;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 22px;
+}
+
+.top-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 22px;
 }
 
 .dashboard-card {
   background: white;
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e0e0e0;
-  height: 300px; /* Ensure consistent height for all cards */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 268px;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
 }
 
-.dashboard-card h3 {
-  margin: 0 0 20px 0;
-  color: #333;
-  font-size: 18px;
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
+  margin-top: 5px;
+}
+.card-actions {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+.unified-card {
+  background: linear-gradient(135deg, #FEF4DF, #EAEAEA8A);
+}
+
+.unified-card:nth-child(3) {
+  background: linear-gradient(135deg, #DBF6F3, #EAEAEA8A);
+}
+
+.assign-task-card {
+  background: linear-gradient(135deg, #D6ECF4, #EAEAEA8A);
+  width: 100%;
+}
+
+/* Add spacing between input and textarea in Create Project */
+.project-form .form-group + .form-group {
+  margin-top: 12px;
 }
 
 .card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-}
-
-.card-header h3 {
-  margin: 0;
-}
-
-/* Form Styles */
-.form-group {
-  margin-bottom: 15px;
-  position: relative;
 }
 
 .form-row {
@@ -292,165 +307,35 @@ export default {
   margin-bottom: 15px;
 }
 
+/* Inputs, selects, textareas */
 .form-input,
 .form-select,
 .form-textarea {
   width: 100%;
-  padding: 12px;
-  border: 1px solid #e0e0e0;
-  border-radius: 20px; /* Make fields curvy */
+  padding: 12px 18px;
+  border: 1px solid #d0d5dd;
+  border-radius: 30px;
+  border-color: #3333333d;
   font-size: 14px;
-  background: #f8f9fa;
+  background-color: transparent; 
+  color: #333;
+  resize: none;
+  outline: none;
+  box-shadow: none;
+  color: #3b3b3ba4;
+  transition: border 0.3s ease;
 }
 
 .form-input:focus,
 .form-select:focus,
 .form-textarea:focus {
-  outline: none;
-  border-color: #4a90e2;
-  background: white;
+  border-color: #000000; /* Optional: blue border on focus */
 }
 
-.add-icon {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #4a90e2;
-  cursor: pointer;
-}
-
-.file-input {
-  display: none;
-}
-
-.file-label {
-  display: flex;
-  align-items: center;
-  padding: 12px;
-  background: #f8f9fa;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  cursor: pointer;
-  color: #666;
-}
-
-/* Button Styles */
-.btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.3s ease;
-}
-
-.btn-primary {
-  background: #4a90e2;
-  color: white;
-  border-radius: 20px; /* Ensure curvy button */
-  padding: 10px 20px;
-  font-size: 14px;
-  border: none;
-  cursor: pointer;
-}
-
-.btn-primary:hover {
-  background: #357abd; /* Slightly darker shade on hover */
-}
-
-.btn-outline {
-  background: transparent;
-  border: 1px solid #4a90e2;
-  color: #4a90e2;
-}
-
-.btn-outline:hover {
-  background: #4a90e2;
-  color: white;
-}
-
-.btn-success {
-  background: #28a745;
-  color: white;
-}
-
-.btn-danger {
-  background: #dc3545;
-  color: white;
-}
-
-.btn-link {
-  background: transparent;
-  color: #4a90e2;
-  text-decoration: none;
-  border: none;
-  padding: 5px 10px;
-}
-
-/* Employees List */
-.employees-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.employee-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.employee-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-}
-
-.employee-name {
-  color: #333;
-  font-size: 14px;
-}
-
-/* Leave Applicants */
-.leave-applicant {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 15px;
-}
-
-.leave-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-}
-
-.leave-info {
-  flex: 1;
-}
-
-.leave-name {
-  font-weight: 500;
-  margin: 0 0 4px 0;
-  color: #333;
-}
-
-.leave-description,
-.leave-days {
-  margin: 0;
-  color: #666;
-  font-size: 12px;
-}
-
-.leave-actions {
-  display: flex;
-  gap: 10px;
-}
-
-/* Task Form */
-.assign-task-card {
-  grid-column: 1 / -1;
+.project-form .form-textarea {
+  border-radius: 16px;
+  padding: 14px 18px;
+  background-color: transparent;
 }
 
 .task-description {
@@ -458,35 +343,196 @@ export default {
 }
 
 .task-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
 }
 
-.save-icon {
-  font-size: 20px;
+/* === Button Styling Updated === */
+
+.btn {
+  padding: 8px 20px;
+  border-radius: 20px;
   cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  transition: all 0.3s ease;
 }
 
-/* Responsive */
+/* Primary (Create, Update) */
+.btn-primary {
+  background-color: #1A8CAB;
+  color: white;
+}
+.btn-primary:hover {
+  background-color: #0a5158;
+}
+
+/* Employees */
+.btn-employees {
+  padding: 8px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  background-color: #1A8CAB;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  transition: all 0.3s ease;
+}
+.btn-employees:hover {
+  background-color: #0a5158;
+  
+}
+
+/* Approve */
+.btn-success {
+  background: #27912b;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+}
+.btn-success:hover {
+  background: #0c6611;
+}
+
+/* Deny */
+.btn-danger {
+  background: #f44336;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+}
+.btn-danger:hover {
+  background: #8a1515;
+}
+
+/* Link button */
+.btn-link {
+  background: transparent;
+  color: #0a0a0a;
+  font-weight: 600;
+  text-decoration: underline;
+  padding: 6px 12px;
+  font-size: 14px;
+}
+.btn-link:hover {
+  color: #353535;
+}
+
+.employee-card {
+  background: linear-gradient(135deg, #d6ecf4, #ffffff);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.employee-list {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.employee-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.employee-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.employee-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: #333;
+}
+
+.employee-footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.leave-applicant-card {
+  background: linear-gradient(135deg, #dbf6f3, #eaeaea8a);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  min-height: 268px;
+}
+
+.leave-details {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  margin: 20px 0;
+}
+
+.leave-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.leave-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  font-size: 14px;
+  color: #333;
+}
+
+.leave-name {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.leave-actions {
+  display: flex;
+  justify-content: flex-start;
+  gap: 12px;
+  margin-top: auto;
+}
+
+/* Adding gap between heading and content in Assign Task card */
+.assign-task-card h3 {
+  margin-bottom: 12px; /* Added gap for better visual appeal */
+}
+
 @media (max-width: 768px) {
-  .dashboard-row {
-    grid-template-columns: 1fr;
-  }
-  
-  .form-row {
-    grid-template-columns: 1fr;
-  }
-  
   .dashboard-header {
     flex-direction: column;
     text-align: center;
     gap: 15px;
   }
 
-  .dashboard-card {
-    height: auto; /* Adjust height for smaller screens */
+  .task-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn + .btn {
+    margin-top: 10px;
+  }
+
+  .dashboard {
+    padding: 16px;
   }
 }
 </style>

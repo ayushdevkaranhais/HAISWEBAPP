@@ -79,11 +79,13 @@ export default {
 <style scoped>
 .day-logs {
   padding: 20px;
-  background-color: #f5f5f5;
+  background-color: #ffffff; /* Update background color */
+  border-radius: 15px; /* Add rounded corners */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
 }
 .day-logs h2 {
-  margin-bottom: 20px;
-  color: #333;
+  color: #1A8CAB; /* Update header color */
+  font-size: 24px; /* Match font size */
 }
 .day-logs-table {
   width: 100%;
@@ -97,14 +99,14 @@ export default {
   text-align: left;
 }
 .day-logs-table th {
-  background-color: #667eea;
+  background-color: #1A8CAB; /* Update table header color */
   color: white;
 }
 .add-log-button {
   width: 50px;
   height: 50px;
-  border-radius: 50%;
-  background-color: #667eea;
+  border-radius: 67px; /* Update button border radius */
+  background-color: #1A8CAB; /* Match button color */
   color: white;
   font-size: 24px;
   border: none;

@@ -84,7 +84,7 @@
           </router-link>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link" @click.prevent="$emit('logout')">
+          <a href="#" class="nav-link" @click.prevent="handleLogout">
             <span class="nav-icon">🚪</span>
             Logout
           </a>
@@ -126,7 +126,7 @@ export default {
   background-color: #F0F0F0; /* Updated color */
   color: #111;
   z-index: 1000;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  
 }
 
 .sidebar, .sidebar * {
@@ -137,7 +137,7 @@ export default {
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
-  padding: 24px 20px 16px 20px;
+  padding:  10px 19px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -191,8 +191,8 @@ export default {
   color: #ffffff !important;
   transform: translateX(1px) scale(1.06);
   box-shadow: 0 2px 16px 0 rgba(85, 84, 84, 0.13);
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
+  border-top-right-radius: 40px;
+  border-bottom-right-radius: 40px;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
@@ -202,8 +202,8 @@ export default {
   border-left: 3px solid #1A8CAB;
   color: #ffffff !important;
   transform: scale(1.07);
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
+  border-top-right-radius: 40px;
+  border-bottom-right-radius: 40px;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }

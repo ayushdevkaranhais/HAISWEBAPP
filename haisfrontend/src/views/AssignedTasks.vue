@@ -2,18 +2,31 @@
   <div class="assigned-tasks">
     <div class="page-header">
       <h1>Assigned Tasks</h1>
-      <div class="task-filters">
-        <select v-model="selectedStatus" @change="filterTasks" class="filter-select">
-          <option value="">All Tasks</option>
-          <option value="pending">Pending</option>
-          <option value="in-progress">In Progress</option>
-          <option value="completed">Completed</option>
-        </select>
-      </div>
     </div>
-    
+
+    <div class="task-filters">
+      <button class="filter-button">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h11M9 21V3m0 0l-6 6m6-6l6 6" />
+        </svg>
+        Priority
+      </button>
+      <button class="filter-button">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h11M9 21V3m0 0l-6 6m6-6l6 6" />
+        </svg>
+        Status
+      </button>
+      <button class="filter-button">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h11M9 21V3m0 0l-6 6m6-6l6 6" />
+        </svg>
+        Due Date
+      </button>
+    </div>
+
     <div class="tasks-container">
-      <div class="task-card" v-for="task in filteredTasks" :key="task.id">
+      <div class="task-card" v-for="task in tasks" :key="task.id">
         <div class="task-header">
           <div class="task-info">
             <h3>{{ task.title }}</h3>
@@ -23,10 +36,10 @@
             <span class="status-badge" :class="task.status">{{ getStatusText(task.status) }}</span>
           </div>
         </div>
-        
+
         <div class="task-details">
           <p class="task-description">{{ task.description }}</p>
-          
+
           <div class="task-meta">
             <div class="meta-item">
               <strong>Assigned by:</strong> {{ task.assignedBy }}
@@ -35,34 +48,18 @@
               <strong>Due Date:</strong> {{ formatDate(task.dueDate) }}
             </div>
             <div class="meta-item">
-              <strong>Priority:</strong> 
+              <strong>Priority:</strong>
               <span class="priority-badge" :class="task.priority">{{ task.priority }}</span>
             </div>
           </div>
         </div>
-        
+
         <div class="task-actions">
-          <button 
-            v-if="task.status === 'pending'" 
-            @click="startTask(task.id)" 
-            class="btn btn-primary"
-          >
-            Start Task
+          <button v-if="task.status !== 'completed'" @click="completeTask(task.id)" class="btn btn-success">
+            Mark as Completed
           </button>
-          <button 
-            v-if="task.status === 'in-progress'" 
-            @click="completeTask(task.id)" 
-            class="btn btn-success"
-          >
-            Mark Complete
-          </button>
-          <button @click="viewDetails(task)" class="btn btn-outline">View Details</button>
+          <span v-if="task.status === 'completed'" class="completed-label">Completed</span>
         </div>
-      </div>
-      
-      <div v-if="filteredTasks.length === 0" class="no-tasks">
-        <h3>No tasks found</h3>
-        <p>{{ selectedStatus ? `No ${selectedStatus} tasks at the moment.` : 'No tasks assigned yet.' }}</p>
       </div>
     </div>
   </div>
@@ -169,217 +166,189 @@ export default {
 
 <style scoped>
 .assigned-tasks {
-  max-width: 1000px;
+  width: 100%;
   margin: 0 auto;
+  padding: 1px 38px 24px;
+  box-sizing: border-box;
 }
 
 .page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 12px;
 }
 
 .page-header h1 {
-  color: #333;
-  margin: 0;
+  font-size: 24px;
+  color: #1A8CAB;
+  
 }
 
 .task-filters {
   display: flex;
   gap: 15px;
+  margin-bottom: 20px;
 }
 
-.filter-select {
-  padding: 8px 12px;
-  border: 1px solid #e0e0e0;
-  border-radius: 6px;
-  background: white;
+.filter-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 20px;
+  background-color: #eaf6fb;
+  color: #1A8CAB;
   font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.filter-button:hover {
+  background-color: #d4eaf4;
+}
+
+.filter-button svg {
+  width: 16px;
+  height: 16px;
 }
 
 .tasks-container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 22px;
 }
 
 .task-card {
-  background: white;
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e0e0e0;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  background: #EAEAEA;
+  border-radius: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
 }
 
-.task-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+.task-card.completed .btn-success {
+  width: auto;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #28a745;
+  color: white;
 }
 
 .task-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 15px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.task-info {
+  flex: 1;
 }
 
 .task-info h3 {
-  margin: 0 0 5px 0;
+  font-size: 18px;
   color: #333;
-  font-size: 20px;
 }
 
 .task-project {
-  margin: 0;
-  color: #4a90e2;
   font-size: 14px;
-  font-weight: 500;
+  color: #4a90e2;
 }
 
 .status-badge {
-  padding: 4px 12px;
-  border-radius: 20px;
+  padding: 4px 8px;
+  border-radius: 12px;
   font-size: 12px;
-  font-weight: 500;
   text-transform: uppercase;
 }
 
-.status-badge.pending {
-  background: #fff3cd;
-  color: #856404;
-}
-
-.status-badge.in-progress {
-  background: #d1ecf1;
+.status-badge.new {
+  background-color: #d1ecf1;
   color: #0c5460;
 }
 
+.status-badge.inprogress {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
 .status-badge.completed {
-  background: #d4edda;
+  background-color: #d4edda;
   color: #155724;
 }
 
-.task-description {
-  color: #555;
-  line-height: 1.6;
-  margin-bottom: 20px;
+.task-details {
+  margin-bottom: 10px;
+  width: 100%;
 }
 
 .task-meta {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-.meta-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-size: 14px;
   color: #666;
 }
 
-.meta-item strong {
-  color: #333;
+.meta-item {
+  margin-right: 20px;
 }
 
 .priority-badge {
-  padding: 2px 8px;
+  padding: 4px 10px;
   border-radius: 12px;
-  font-size: 11px;
-  font-weight: 500;
-  text-transform: uppercase;
-}
-
-.priority-badge.high {
+  font-size: 12px;
+  font-weight: bold;
   background: #f8d7da;
   color: #721c24;
 }
 
+.priority-badge.low {
+  background: #FFFADC;
+  color: #9C8500;
+}
 .priority-badge.medium {
-  background: #fff3cd;
-  color: #856404;
+  background: #ffd5a4;
+  color: #7c4200;
+}
+.task-description {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 20px;
 }
 
-.priority-badge.low {
-  background: #d1ecf1;
-  color: #0c5460;
+.btn-success {
+  background-color: #1A8CAB;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-success:hover {
+  background-color: #1A8CAB;
+}
+
+.completed-label {
+  background-color: #1A8CAB;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .task-actions {
   display: flex;
+  justify-content: flex-start; /* Align buttons to the left */
   gap: 10px;
   flex-wrap: wrap;
-}
-
-.btn {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-.btn-primary {
-  background: #4a90e2;
-  color: white;
-}
-
-.btn-primary:hover {
-  background: #357abd;
-}
-
-.btn-success {
-  background: #28a745;
-  color: white;
-}
-
-.btn-success:hover {
-  background: #218838;
-}
-
-.btn-outline {
-  background: transparent;
-  border: 1px solid #4a90e2;
-  color: #4a90e2;
-}
-
-.btn-outline:hover {
-  background: #4a90e2;
-  color: white;
-}
-
-.no-tasks {
-  text-align: center;
-  padding: 60px 20px;
-  color: #666;
-}
-
-.no-tasks h3 {
-  margin: 0 0 10px 0;
-  color: #999;
-}
-
-@media (max-width: 768px) {
-  .page-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-  }
-  
-  .task-header {
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .task-meta {
-    grid-template-columns: 1fr;
-  }
-  
-  .task-actions {
-    justify-content: flex-start;
-  }
+  margin-top: auto;
 }
 </style>
