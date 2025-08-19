@@ -1,42 +1,68 @@
 <template>
-  <div class="profile">
-    <div class="page-header">
-      <h1>My Profile</h1>
-    </div>
-    
-    <div class="profile-container">
-      <div class="profile-card">
-        <div class="profile-header">
-          <img :src="profile.avatar" :alt="profile.name" class="profile-avatar" />
-          <div class="profile-info">
-            <h2>{{ profile.name }}</h2>
-            <p>{{ profile.position }}</p>
-            <p>{{ profile.email }}</p>
+  <div class="profile-container">
+    <!-- Top Right Profile -->
+    <!-- <div class="profile-header">
+      <img
+        src="https://via.placeholder.com/40"
+        alt="profile"
+        class="profile-pic"
+      />
+    </div> -->
+
+    <!-- Tabs -->
+    <div class="profile-card">
+     
+      <div class="tabs">
+        <button class="tab active">My Profile</button>
+        <button class="tab">Notifications</button>
+      </div>
+
+      <!-- Profile Form -->
+      <div class="form-container">
+        <div class="form-actions">
+          <button class="btn cancel">Cancel</button>
+          <button class="btn save">Save Changes</button>
+        </div>
+        <div class="heading-h1">
+          <h1>Personal Info</h1>
+          <p>Update your photo & personal info here</p>
+        </div>
+
+        <!-- Name -->
+        <div class="form-row">
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" value="Anuj" />
+          </div>
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <input type="text" value="Bhardwaj" />
           </div>
         </div>
-        
-        <div class="profile-details">
-          <div class="detail-group">
-            <label>Phone</label>
-            <p>{{ profile.phone }}</p>
-          </div>
-          <div class="detail-group">
-            <label>Department</label>
-            <p>{{ profile.department }}</p>
-          </div>
-          <div class="detail-group">
-            <label>Join Date</label>
-            <p>{{ profile.joinDate }}</p>
-          </div>
-          <div class="detail-group">
-            <label>Employee ID</label>
-            <p>{{ profile.employeeId }}</p>
-          </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" value="anujbhardwaj@gmail.com" />
         </div>
-        
-        <div class="profile-actions">
-          <button class="btn btn-primary">Edit Profile</button>
-          <button class="btn btn-outline">Change Password</button>
+
+        <!-- Role -->
+        <div class="form-group">
+          <label>Role</label>
+          <input type="text" value="Developer" />
+        </div>
+
+        <!-- Upload -->
+        <div class="upload-section">
+          <img
+            src="https://via.placeholder.com/100"
+            alt="profile"
+            class="upload-pic"
+          />
+          <div class="upload-box">
+            <p>Choose & Upload a file</p>
+            <i class="fas fa-upload"></i>
+          </div>
         </div>
       </div>
     </div>
@@ -45,134 +71,143 @@
 
 <script>
 export default {
-  name: 'ProfileView',
-  data() {
-    return {
-      profile: {
-        name: 'Anuj',
-        position: 'Senior Developer',
-        email: 'anuj@company.com',
-        phone: '+1 (555) 123-4567',
-        department: 'Engineering',
-        joinDate: 'January 15, 2023',
-        employeeId: 'EMP001',
-        avatar: 'https://via.placeholder.com/120x120/4a90e2/ffffff?text=A'
-      }
-    }
-  }
-}
+  name: "ProfileView",
+};
 </script>
 
 <style scoped>
-.profile {
-  max-width: 600px;
-  margin: 0 auto;
+/* Container */
+.profile-container {
+  flex: 1;
+  padding: 20px 40px;
+  background: #f0f0f0; /* Updated background color */
+  min-height: 100vh;
 }
 
-.page-header h1 {
-  color: #333;
-  margin-bottom: 30px;
-}
-
-.profile-card {
-  background: white;
-  border-radius: 12px;
-  padding: 30px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e0e0e0;
-}
-
+/* Header */
 .profile-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+.heading-h1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 38px;
+  flex-wrap: wrap;
+}
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+/* Profile Card */
+.profile-card {
+  background: #eaeaea; /* Updated background color */
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+}
+.tab {
+  padding: 12px 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  color: #333;
+}
+.tab.active {
+  border-bottom: 2px solid #0099cc;
+  color: #0099cc;
+  font-weight: 500;
+}
+
+/* Form */
+.form-container {
+  background: #eaeaea;
+  padding: 20px;
+}
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.btn {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+.btn.cancel {
+  background: #ccc;
+  color: #333;
+}
+.btn.save {
+  background: #0099cc;
+  color: #fff;
+}
+
+/* Fields */
+.form-row {
+  display: flex;
+  gap: 20px;
+}
+.form-group {
+  flex: 1;
+  margin-bottom: 15px;
+}
+.form-group label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #444;
+}
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* Upload */
+.upload-section {
   display: flex;
   align-items: center;
   gap: 20px;
-  margin-bottom: 30px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #e0e0e0;
+  margin-top: 20px;
 }
-
-.profile-avatar {
-  width: 120px;
-  height: 120px;
+.upload-pic {
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
-  object-fit: cover;
 }
-
-.profile-info h2 {
-  margin: 0 0 10px 0;
-  color: #333;
-}
-
-.profile-info p {
-  margin: 5px 0;
-  color: #666;
-}
-
-.profile-details {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin-bottom: 30px;
-}
-
-.detail-group label {
-  display: block;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 5px;
-}
-
-.detail-group p {
-  margin: 0;
-  color: #666;
-}
-
-.profile-actions {
-  display: flex;
-  gap: 15px;
-}
-
-.btn {
-  padding: 12px 24px;
-  border: none;
+.upload-box {
+  border: 2px dashed #aaa;
+  width: 200px;
+  height: 100px;
   border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #666;
 }
-
-.btn-primary {
-  background: #4a90e2;
-  color: white;
+.upload-box p {
+  font-size: 13px;
+  margin-bottom: 6px;
 }
-
-.btn-primary:hover {
-  background: #357abd;
-}
-
-.btn-outline {
-  background: transparent;
-  border: 1px solid #4a90e2;
-  color: #4a90e2;
-}
-
-.btn-outline:hover {
-  background: #4a90e2;
-  color: white;
-}
-
-@media (max-width: 768px) {
-  .profile-header {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .profile-details {
-    grid-template-columns: 1fr;
-  }
-  
-  .profile-actions {
-    flex-direction: column;
-  }
+.upload-box i {
+  font-size: 18px;
 }
 </style>

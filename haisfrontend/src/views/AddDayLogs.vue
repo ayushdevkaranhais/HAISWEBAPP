@@ -18,7 +18,17 @@
       </div>
 
       <div class="form-group">
-        <input type="text" id="task" class="form-input" placeholder="Task" v-model="form.task" required />
+        <select id="task" class="form-input" v-model="form.task" required>
+          <option value="">Select Task</option>
+          <option value="Research & Learning">Research & Learning</option>
+          <option value="Designing">Designing</option>
+          <option value="Developing">Developing</option>
+          <option value="Testing">Testing</option>
+          <option value="Debugging">Debugging</option>
+          <option value="Query handling">Query handling</option>
+          <option value="Discussion">Discussion</option>
+          <option value="Documenting">Documenting</option>
+        </select>
       </div>
 
       <div class="form-group">
@@ -59,14 +69,15 @@ export default {
   },
   methods: {
     handleSubmit() {
-      console.log('Form submitted:', this.form);
+      const newLog = { ...this.form, id: Date.now() };
+      const existingLogs = JSON.parse(localStorage.getItem('dayLogs')) || [];
+      existingLogs.push(newLog);
+      localStorage.setItem('dayLogs', JSON.stringify(existingLogs));
       alert('Day log saved successfully!');
       this.resetForm();
     },
     handleSaveAndAddMore() {
-      console.log('Form saved and ready for new entry:', this.form);
-      alert('Day log saved! You can add another entry.');
-      this.resetForm();
+      this.handleSubmit();
     },
     resetForm() {
       this.form = {
@@ -87,7 +98,7 @@ export default {
 .add-day-logs {
   width: 100%;
   margin: 0 auto;
-  padding: 1px 38px 24px;
+  padding: 18px 38px 25px;
   box-sizing: border-box;
 }
 .page-header {
@@ -145,6 +156,6 @@ export default {
 }
 .btn-secondary {
   background: #e0e0e0;
-  color: #333;
+  color: #000000;
 }
 </style>

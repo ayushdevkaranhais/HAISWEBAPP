@@ -124,41 +124,18 @@ export default {
     }
   },
   methods: {
-    filterTasks() {
-      // Filter logic is handled by computed property
-    },
-    startTask(taskId) {
-      const task = this.tasks.find(t => t.id === taskId)
-      if (task) {
-        task.status = 'in-progress'
-        alert(`Started working on: ${task.title}`)
-      }
-    },
     completeTask(taskId) {
-      const task = this.tasks.find(t => t.id === taskId)
+      const task = this.tasks.find(t => t.id === taskId);
       if (task) {
-        task.status = 'completed'
-        alert(`Task completed: ${task.title}`)
+        task.status = 'completed';
       }
-    },
-    viewDetails(task) {
-      alert(`Task Details:\n\nTitle: ${task.title}\nProject: ${task.project}\nDescription: ${task.description}\nDue Date: ${this.formatDate(task.dueDate)}`)
     },
     getStatusText(status) {
-      const statusMap = {
-        'pending': 'Pending',
-        'in-progress': 'In Progress',
-        'completed': 'Completed'
-      }
-      return statusMap[status] || status
+      return status === 'completed' ? 'Completed' : status === 'in-progress' ? 'In Progress' : 'Pending';
     },
-    formatDate(dateString) {
-      const date = new Date(dateString)
-      return date.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      })
+    formatDate(date) {
+      const options = { year: 'numeric', month: 'short', day: 'numeric' };
+      return new Date(date).toLocaleDateString(undefined, options);
     }
   }
 }
@@ -168,7 +145,7 @@ export default {
 .assigned-tasks {
   width: 100%;
   margin: 0 auto;
-  padding: 1px 38px 24px;
+  padding: 18px 38px 25px;
   box-sizing: border-box;
 }
 

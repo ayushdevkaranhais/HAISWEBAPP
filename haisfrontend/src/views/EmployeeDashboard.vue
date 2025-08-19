@@ -39,24 +39,20 @@
       <!-- Add Leave -->
       <div class="add-leave-card">
         <h3>Add Leave</h3>
-        <form @submit.prevent="submitLeave">
-          <div class="form-row">
-            <select class="form-select">
-              <option>Select Days</option>
-            </select>
-            <input type="date" class="form-input" placeholder="From" />
-            <input type="date" class="form-input" placeholder="Till" />
-            <select class="form-select">
-              <option>Leave type</option>
-            </select>
-          </div>
-          <div class="form-row">
-            <input type="text" placeholder="Leave Description" class="form-input" />
-          </div>
-          <div class="card-actions">
-            <button type="submit" class="btn btn-primary">Update</button>
-          </div>
-        </form>
+        <div class="form-row">
+          <input type="number" v-model="newLeave.days" placeholder="No. of Days" class="form-input" min="1" max="10" />
+          <input type="date" v-model="newLeave.from" class="form-input" />
+          <input type="date" v-model="newLeave.till" class="form-input" />
+          <select v-model="newLeave.leaveType" class="form-input">
+            <option value="">Leave Type</option>
+            <option value="Casual">Casual</option>
+            <option value="Sick">Sick</option>
+          </select>
+        </div>
+        <input type="text" v-model="newLeave.reason" class="form-input full" placeholder="Leave Description" />
+        <div class="form-action">
+          <button class="btn btn-primary" @click="submitLeave">Apply</button>
+        </div>
       </div>
     </div>
 
@@ -96,18 +92,20 @@ export default {
   name: 'EmployeeDashboard',
   data() {
     return {
+      currentUser: 'Ayush Devkaran', // Simulated current user
+      newLeave: {
+        days: '',
+        from: '',
+        till: '',
+        leaveType: '',
+        reason: ''
+      },
+      leaveApplications: [], // Shared leave applications array
       assignedTasks: [
         { id: 1, name: 'Admin Website' },
         { id: 2, name: 'Maa Bala Sundari Ji Website' },
         { id: 3, name: 'GJ Website' }
       ],
-      leaveForm: {
-        days: '',
-        from: '',
-        till: '',
-        type: '',
-        description: ''
-      },
       logForm: {
         date: new Date().toISOString().split('T')[0],
         project: '',
@@ -121,10 +119,18 @@ export default {
   },
   methods: {
     submitLeave() {
-      console.log('Submitting leave request:', this.leaveForm)
-      // Add leave submission logic here
-      alert('Leave request submitted successfully!')
-      this.resetLeaveForm()
+      if (!this.newLeave.reason || !this.newLeave.days) {
+        alert('Please add all fields.');
+        return;
+      }
+      const newApplication = {
+        id: this.leaveApplications.length + 1,
+        employeeName: this.currentUser, // Automatically use the current user's name
+        ...this.newLeave,
+        status: 'Pending'
+      };
+      this.leaveApplications.push(newApplication);
+      this.resetForm();
     },
     addLog() {
       console.log('Adding log entry:', this.logForm)
@@ -132,14 +138,14 @@ export default {
       alert('Log entry added successfully!')
       this.resetLogForm()
     },
-    resetLeaveForm() {
-      this.leaveForm = {
+    resetForm() {
+      this.newLeave = {
         days: '',
         from: '',
         till: '',
-        type: '',
-        description: ''
-      }
+        leaveType: '',
+        reason: ''
+      };
     },
     resetLogForm() {
       this.logForm = {
@@ -160,7 +166,7 @@ export default {
 .dashboard {
   width: 100%;
   margin: 0 auto;
-  padding: 30px 38px 25px;
+  padding: 18px 38px 25px;
   box-sizing: border-box;
   background-color: #F0F0F0; /* Updated background color for the dashboard */
 }
@@ -354,7 +360,12 @@ export default {
 
 /* Reduced margin-bottom between Add Leave and input fields */
 .add-leave-card .form-row {
-  margin-bottom: 20px; /* Reduced margin */
+  margin-bottom: 18px; /* Reduced margin */
+  gap: 10px; /* Add proper gap between input boxes */
+}
+
+.add-leave-card .form-input[placeholder="Leave Description"] {
+  height: 39px; /* Increase height of leave description input box */
 }
 
 .task-list {

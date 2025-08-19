@@ -1,20 +1,32 @@
 <template>
   <div class="our-team">
-      <div class="page-header-title">
-        <h1>Our Team</h1>
+    <div class="page-header-title">
+      <h1>Our Team</h1>
     </div>
-    <div class="team-grid">
-      <div class="team-member-card" v-for="member in teamMembers" :key="member.id">
-        <img :src="member.avatar" :alt="member.name" class="member-image" />
-        <h3>{{ member.name }}</h3>
-        <p class="member-position">{{ member.position }}</p>
-        <p class="member-email">{{ member.email }}</p>
-        <div class="member-status">
-          <span class="status-indicator" :class="member.status"></span>
-          <span class="status-text">{{ member.statusText }}</span>
-        </div>
-      </div>
-    </div>
+    <table class="team-table">
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Mobile No.</th>
+          <th>Joined On</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="member in teamMembers" :key="member.id">
+          <td>
+            <div class="avatar-circle">
+              <span>{{ member.initials }}</span>
+            </div>
+          </td>
+          <td>{{ member.name }}</td>
+          <td>{{ member.email }}</td>
+          <td>{{ member.mobile }}</td>
+          <td>{{ member.joinedOn }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -26,172 +38,115 @@ export default {
       teamMembers: [
         {
           id: 1,
-          name: 'Anuj Sharma',
-          position: 'Team Lead',
-          email: 'anuj@company.com',
-          avatar: 'https://via.placeholder.com/100x100/4a90e2/ffffff?text=AS',
-          status: 'online',
-          statusText: 'Online'
+          initials: 'SK',
+          name: 'Shivangi Kumar',
+          email: 'shivangi.kumar@highaltsolutions.in',
+          mobile: '8980675432',
+          joinedOn: 'June, 2023'
         },
         {
           id: 2,
-          name: 'Girish Verma',
-          position: 'Software Developer',
-          email: 'girish@company.com',
-          avatar: 'https://via.placeholder.com/100x100/4a90e2/ffffff?text=GV',
-          status: 'online',
-          statusText: 'Online'
+          initials: 'DB',
+          name: 'Dipanshi Bhardwaj',
+          email: 'dipanshi.bhardwaj@highaltsolutions.in',
+          mobile: '8980675432',
+          joinedOn: 'June, 2024'
         },
         {
           id: 3,
-          name: 'Jitender Chauhan',
-          position: 'UI/UX Designer',
-          email: 'jitender@company.com',
-          avatar: 'https://via.placeholder.com/100x100/4a90e2/ffffff?text=JC',
-          status: 'away',
-          statusText: 'Away'
+          initials: 'AD',
+          name: 'Ayush Devkaran',
+          email: 'ayush.devkaran@highaltsolutions.in',
+          mobile: '8980675432',
+          joinedOn: 'March, 2025'
         },
         {
           id: 4,
-          name: 'Manohar Thakur',
-          position: 'Project Manager',
-          email: 'manohar@company.com',
-          avatar: 'https://via.placeholder.com/100x100/4a90e2/ffffff?text=MT',
-          status: 'offline',
-          statusText: 'Offline'
+          initials: 'AB',
+          name: 'Anuj Bhardwaj',
+          email: 'anuj.bhardwaj@highaltsolutions.in',
+          mobile: '8980675432',
+          joinedOn: 'June, 2015'
         },
         {
           id: 5,
-          name: 'Shivangi Kumar',
-          position: 'Junior Developer',
-          email: 'shivangi@company.com',
-          avatar: 'https://via.placeholder.com/100x100/e91e63/ffffff?text=SK',
-          status: 'online',
-          statusText: 'Online (You)'
+          initials: 'GV',
+          name: 'Girish Verma',
+          email: 'girish.verma@highaltsolutions.in',
+          mobile: '8980675432',
+          joinedOn: 'June, 2015'
         },
         {
           id: 6,
-          name: 'A.D',
-          position: 'Junior Developer',
-          email: 'A.D@company.com',
-          avatar: 'https://via.placeholder.com/100x100/e91e63/ffffff?text=SK',
-          status: 'online',
-          statusText: 'Online (You)'
+          initials: 'VK',
+          name: 'Vivek Kumar',
+          email: 'vivek.kumar@highaltsolutions.in',
+          mobile: '8980675432',
+          joinedOn: 'March, 2022'
         },
+        {
+          id: 7,
+          initials: 'SB',
+          name: 'Saiyam Bhardwaj',
+          email: 'saiyam.bhardwaj@highaltsolutions.in',
+          mobile: '8980675432',
+          joinedOn: 'August, 2023'
+        }
       ]
-    }
+    };
   }
-}
+};
 </script>
 
 <style scoped>
-.page-header-title{
-  margin-bottom: 12px;
-  
-}
-.page-header-title h1{
-  font-size: 24px;
-  color: #1A8CAB;
-  
-  
-}
 .our-team {
   width: 100%;
   margin: 0 auto;
-  padding: 1px 38px 24px;
+  padding: 18px 38px 25px;
   box-sizing: border-box;
 }
-
-.page-header h1 {
-  color: #333;
-  margin-bottom: 30px;
+.page-header-title {
+  margin-bottom: 12px;
 }
-
-.team-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 22px;
-  margin-top: 20px; /* Add margin to create space at the top */
-}
-
-.team-member-card {
-  background: #EAEAEA; /* Updated background color */
-  border-radius: 12px;
+.page-header-title h1 {
+  font-size: 24px;
+  color: #1A8CAB;
+} 
+.team-table {
+  background: #ffffff;
+  border-radius: 16px;
   padding: 20px;
-  height: 220px;
-  text-align: center;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e0e0e0;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.team-member-card:hover {
-  transform: translateY(3px);
-  background: linear-gradient(90deg, #cce5f6 0%, #f7f7f7 100%);
-}
-
-.member-image {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  margin-bottom: 15px;
-  object-fit: cover;
-}
-
-.team-member-card h3 {
-  margin: 0 0 8px 0;
-  color: #333;
-  font-size: 18px;
-}
-
-.member-position {
-  margin: 0 0 8px 0;
-  color: #4a90e2;
-  font-weight: 500;
-  font-size: 14px;
-}
-
-.member-email {
-  margin: 0 0 15px 0;
-  color: #666;
-  font-size: 14px;
-}
-
-.member-status {
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 480px; /* Increase the height of the card */
+}
+.team-table th,
+.team-table td {
+  padding: 10px 20px; /* Add horizontal padding for proper spacing */
+  text-align: left; /* Align text to the left for better readability */
+}
+.team-table th {
+  padding: 15px 25px; /* Increase padding for better spacing between headings */
+  text-align: left; /* Keep text aligned to the left */
+  color: rgb(2, 2, 2);
 }
 
-.status-indicator {
-  width: 10px;
-  height: 10px;
+.avatar-circle {
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  display: inline-block;
-}
-
-.status-indicator.online {
-  background-color: #28a745;
-}
-
-.status-indicator.away {
-  background-color: #ffc107;
-}
-
-.status-indicator.offline {
-  background-color: #dc3545;
-}
-
-.status-text {
-  font-size: 12px;
-  color: #666;
-}
-
-@media (max-width: 768px) {
-  .team-grid {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  }
+  background-color: #1a8cab27;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: normal;
+  color: #1A8CAB;
 }
 </style>
 
