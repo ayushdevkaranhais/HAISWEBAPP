@@ -41,7 +41,7 @@
             </div>
           </div>
           <div class="card-actions">
-            <button class="btn btn-employees">All Employees</button>
+            <button class="btn btn-employees" @click="$router.push('/employees')">All Employees</button>
           </div>
         </div>
 

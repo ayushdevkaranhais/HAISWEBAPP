@@ -115,72 +115,7 @@ export default {
       showAddEmployeeModal: false,
       showInfoModal: false,
       selectedEmployee: {},
-      teamMembers: [
-        {
-          id: 1,
-          initials: 'SK',
-          name: 'Shivangi Kumar',
-          email: 'shivangi.kumar@highaltsolutions.in',
-          mobile: '8980675432',
-          joinedOn: 'June, 2023',
-          firstName: 'Shivangi',
-          lastName: 'Kumar',
-          aadhar: '123456789012',
-          dob: '20-03-1998',
-          education: 'B.Tech',
-          address: 'Solan',
-          password: 'shivangi@1234',
-          confirmPassword: 'shivangi@1234'
-        },
-        {
-          id: 2,
-          initials: 'DB',
-          name: 'Dipanshi Bhardwaj',
-          email: 'dipanshi.bhardwaj@highaltsolutions.in',
-          mobile: '8980675432',
-          joinedOn: 'June, 2024'
-        },
-        {
-          id: 3,
-          initials: 'AD',
-          name: 'Ayush Devkaran',
-          email: 'ayush.devkaran@highaltsolutions.in',
-          mobile: '8980675432',
-          joinedOn: 'March, 2025'
-        },
-        {
-          id: 4,
-          initials: 'AB',
-          name: 'Anuj Bhardwaj',
-          email: 'anuj.bhardwaj@highaltsolutions.in',
-          mobile: '8980675432',
-          joinedOn: 'June, 2015'
-        },
-        {
-          id: 5,
-          initials: 'GV',
-          name: 'Girish Verma',
-          email: 'girish.verma@highaltsolutions.in',
-          mobile: '8980675432',
-          joinedOn: 'June, 2015'
-        },
-        {
-          id: 6,
-          initials: 'VK',
-          name: 'Vivek Kumar',
-          email: 'vivek.kumar@highaltsolutions.in',
-          mobile: '8980675432',
-          joinedOn: 'March, 2022'
-        },
-        {
-          id: 7,
-          initials: 'SB',
-          name: 'Saiyam Bhardwaj',
-          email: 'saiyam.bhardwaj@highaltsolutions.in',
-          mobile: '8980675432',
-          joinedOn: 'August, 2023'
-        }
-      ],
+      teamMembers: [],
       newEmployee: {
         firstName: '',
         lastName: '',
@@ -211,7 +146,9 @@ export default {
         aadhar: this.newEmployee.aadhar,
         dob: this.newEmployee.dob,
         education: this.newEmployee.education,
-        address: this.newEmployee.address
+        address: this.newEmployee.address,
+        password: this.newEmployee.password,
+        confirmPassword: this.newEmployee.confirmPassword
       };
       this.teamMembers.push(newMember);
       this.showAddEmployeeModal = false;
@@ -236,7 +173,12 @@ export default {
     updateEmployee() {
       const index = this.teamMembers.findIndex(member => member.id === this.selectedEmployee.id);
       if (index !== -1) {
-        this.$set(this.teamMembers, index, { ...this.selectedEmployee });
+        const updatedMember = {
+          ...this.selectedEmployee,
+          name: `${this.selectedEmployee.firstName} ${this.selectedEmployee.lastName}`,
+          initials: `${this.selectedEmployee.firstName.charAt(0)}${this.selectedEmployee.lastName.charAt(0)}`.toUpperCase() // Update avatar initials dynamically
+        };
+        this.teamMembers.splice(index, 1, updatedMember);
       }
       this.showInfoModal = false;
     }
@@ -265,6 +207,7 @@ export default {
   margin-bottom: 20px;
   background-color: #fff;
   border-radius: 16px;
+  height: auto; /* Set a fixed height for the table */
 }
 .team-table th,
 .team-table td {
@@ -298,8 +241,8 @@ export default {
 .add-employee-button {
   position: relative; /* Change position to relative */
   float: right; /* Align the button to the top-right */
-  margin-top: -30px; /* Adjust margin to prevent overlap */
-  padding: 7px 14px;
+  margin-top: -35px; /* Adjust margin to prevent overlap */
+  padding: 6px 12px;
   background-color: #1A8CAB;
   color: white;
   border: none;
