@@ -1,20 +1,107 @@
 <template>
-  <div class="employees">
-    <div class="page-header">
-      <h1>Employees</h1>
-      <button class="btn btn-primary">Add Employee</button>
+  <div class="our-team" :class="{ 'blur-background': showAddEmployeeModal || showInfoModal }">
+    <div class="page-header-title">
+      <h1>All Employees</h1>
+      <button class="btn btn-primary add-employee-button" @click="showAddEmployeeModal = true">Add Employee</button>
     </div>
-    
-    <div class="employees-grid">
-      <div class="employee-card" v-for="employee in employees" :key="employee.id">
-        <img :src="employee.avatar" :alt="employee.name" class="employee-image" />
-        <h3>{{ employee.name }}</h3>
-        <p>{{ employee.position }}</p>
-        <p>{{ employee.email }}</p>
-        <div class="employee-actions">
-          <button class="btn btn-outline">Edit</button>
-          <button class="btn btn-danger">Remove</button>
-        </div>
+    <table class="team-table">
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Mobile No.</th>
+          <th>Joined On</th>
+         
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="member in teamMembers" :key="member.id">
+          <td>
+            <div class="avatar-circle">
+              <span>{{ member.initials }}</span>
+            </div>
+          </td>
+          <td>{{ member.name }}</td>
+          <td>{{ member.email }}</td>
+          <td>{{ member.mobile }}</td>
+          <td>{{ member.joinedOn }}</td>
+          <td>
+            <i class="fas fa-info-circle" title="More Info" @click="showInfo(member)"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Add Employee Modal -->
+    <!-- Add Employee Modal -->
+    <div v-if="showAddEmployeeModal" class="modal-overlay">
+      <div class="modal">
+        <h2 class="modal-title">Add Employee</h2>
+        <form @submit.prevent="addEmployee">
+          <div class="form-row">
+            <input type="text" v-model="newEmployee.firstName" placeholder="First Name" class="form-input" />
+            <input type="text" v-model="newEmployee.lastName" placeholder="Last Name" class="form-input" />
+          </div>
+          <div class="form-row">
+            <input type="email" v-model="newEmployee.email" placeholder="Email" class="form-input" />
+            <input type="text" v-model="newEmployee.mobile" placeholder="Mobile No." class="form-input" />
+          </div>
+          <div class="form-row">
+            <input type="password" v-model="newEmployee.password" placeholder="Password" class="form-input" />
+            <input type="password" v-model="newEmployee.confirmPassword" placeholder="Confirm Password" class="form-input" />
+          </div>
+          <div class="form-row">
+            <input type="text" v-model="newEmployee.joinedOn" placeholder="Joined On" class="form-input" />
+            <input type="text" v-model="newEmployee.aadhar" placeholder="Aadhar No." class="form-input" />
+          </div>
+          <div class="form-row">
+            <input type="date" v-model="newEmployee.dob" placeholder="DOB" class="form-input" />
+            <input type="text" v-model="newEmployee.education" placeholder="Education" class="form-input" />
+          </div>
+          <div class="form-row">
+            <input type="text" v-model="newEmployee.address" placeholder="Address" class="form-input" />
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Add Employee</button>
+            <button type="button" class="btn btn-secondary" @click="showAddEmployeeModal = false">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Info Modal -->
+    <div v-if="showInfoModal" class="modal-overlay">
+      <div class="modal info-modal">
+        <h2 class="modal-title">Personal Information</h2>
+        <form>
+          <div class="form-row">
+            <input type="text" v-model="selectedEmployee.firstName" placeholder="First Name" class="form-input" />
+            <input type="text" v-model="selectedEmployee.lastName" placeholder="Last Name" class="form-input" />
+          </div>
+          <div class="form-row">
+            <input type="email" v-model="selectedEmployee.email" placeholder="Email" class="form-input" />
+            <input type="text" v-model="selectedEmployee.mobile" placeholder="Mobile No." class="form-input" />
+          </div>
+          <div class="form-row">
+            <input type="text" v-model="selectedEmployee.password" placeholder="Password" class="form-input" />
+            <input type="text" v-model="selectedEmployee.confirmPassword" placeholder="Confirm Password" class="form-input" />
+          </div>
+          <div class="form-row">
+            <input type="text" v-model="selectedEmployee.joinedOn" placeholder="Joined On" class="form-input" />
+            <input type="text" v-model="selectedEmployee.aadhar" placeholder="Aadhar No." class="form-input" />
+          </div>
+          <div class="form-row">
+            <input type="date" v-model="selectedEmployee.dob" placeholder="DOB" class="form-input" />
+            <input type="text" v-model="selectedEmployee.education" placeholder="Education" class="form-input" />
+          </div>
+          <div class="form-row">
+            <input type="text" v-model="selectedEmployee.address" placeholder="Address" class="form-input" />
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-primary" @click="updateEmployee">Update Changes</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -22,117 +109,270 @@
 
 <script>
 export default {
-  name: 'EmployeesView',
+  name: 'OurTeam',
   data() {
     return {
-      employees: [
+      showAddEmployeeModal: false,
+      showInfoModal: false,
+      selectedEmployee: {},
+      teamMembers: [
         {
           id: 1,
-          name: 'Girish Verma',
-          position: 'Software Developer',
-          email: 'girish@company.com',
-          avatar: 'https://via.placeholder.com/100x100/4a90e2/ffffff?text=GV'
+          initials: 'SK',
+          name: 'Shivangi Kumar',
+          email: 'shivangi.kumar@highaltsolutions.in',
+          mobile: '8980675432',
+          joinedOn: 'June, 2023',
+          firstName: 'Shivangi',
+          lastName: 'Kumar',
+          aadhar: '123456789012',
+          dob: '20-03-1998',
+          education: 'B.Tech',
+          address: 'Solan',
+          password: 'shivangi@1234',
+          confirmPassword: 'shivangi@1234'
         },
         {
           id: 2,
-          name: 'Jitender Chauhan',
-          position: 'UI/UX Designer',
-          email: 'jitender@company.com',
-          avatar: 'https://via.placeholder.com/100x100/4a90e2/ffffff?text=JC'
+          initials: 'DB',
+          name: 'Dipanshi Bhardwaj',
+          email: 'dipanshi.bhardwaj@highaltsolutions.in',
+          mobile: '8980675432',
+          joinedOn: 'June, 2024'
         },
         {
           id: 3,
-          name: 'Manohar Thakur',
-          position: 'Project Manager',
-          email: 'manohar@company.com',
-          avatar: 'https://via.placeholder.com/100x100/4a90e2/ffffff?text=MT'
+          initials: 'AD',
+          name: 'Ayush Devkaran',
+          email: 'ayush.devkaran@highaltsolutions.in',
+          mobile: '8980675432',
+          joinedOn: 'March, 2025'
+        },
+        {
+          id: 4,
+          initials: 'AB',
+          name: 'Anuj Bhardwaj',
+          email: 'anuj.bhardwaj@highaltsolutions.in',
+          mobile: '8980675432',
+          joinedOn: 'June, 2015'
+        },
+        {
+          id: 5,
+          initials: 'GV',
+          name: 'Girish Verma',
+          email: 'girish.verma@highaltsolutions.in',
+          mobile: '8980675432',
+          joinedOn: 'June, 2015'
+        },
+        {
+          id: 6,
+          initials: 'VK',
+          name: 'Vivek Kumar',
+          email: 'vivek.kumar@highaltsolutions.in',
+          mobile: '8980675432',
+          joinedOn: 'March, 2022'
+        },
+        {
+          id: 7,
+          initials: 'SB',
+          name: 'Saiyam Bhardwaj',
+          email: 'saiyam.bhardwaj@highaltsolutions.in',
+          mobile: '8980675432',
+          joinedOn: 'August, 2023'
         }
-      ]
+      ],
+      newEmployee: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        mobile: '',
+        password: '',
+        confirmPassword: '',
+        joinedOn: '',
+        aadhar: '',
+        dob: '',
+        education: '',
+        address: ''
+      }
+    };
+  },
+  methods: {
+    addEmployee() {
+      const initials = `${this.newEmployee.firstName.charAt(0)}${this.newEmployee.lastName.charAt(0)}`.toUpperCase();
+      const newMember = {
+        id: this.teamMembers.length + 1,
+        initials,
+        name: `${this.newEmployee.firstName} ${this.newEmployee.lastName}`,
+        email: this.newEmployee.email,
+        mobile: this.newEmployee.mobile,
+        joinedOn: this.newEmployee.joinedOn,
+        firstName: this.newEmployee.firstName,
+        lastName: this.newEmployee.lastName,
+        aadhar: this.newEmployee.aadhar,
+        dob: this.newEmployee.dob,
+        education: this.newEmployee.education,
+        address: this.newEmployee.address
+      };
+      this.teamMembers.push(newMember);
+      this.showAddEmployeeModal = false;
+      this.newEmployee = {
+        firstName: '',
+        lastName: '',
+        email: '',
+        mobile: '',
+        password: '',
+        confirmPassword: '',
+        joinedOn: '',
+        aadhar: '',
+        dob: '',
+        education: '',
+        address: ''
+      };
+    },
+    showInfo(member) {
+      this.selectedEmployee = member;
+      this.showInfoModal = true;
+    },
+    updateEmployee() {
+      const index = this.teamMembers.findIndex(member => member.id === this.selectedEmployee.id);
+      if (index !== -1) {
+        this.$set(this.teamMembers, index, { ...this.selectedEmployee });
+      }
+      this.showInfoModal = false;
     }
   }
-}
+};
 </script>
 
 <style scoped>
-.employees {
-  max-width: 1200px;
+.our-team {
+  width: 100%;
   margin: 0 auto;
+  padding: 18px 38px 25px;
+  box-sizing: border-box;
 }
-
-.page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
+.page-header-title {
+  margin-bottom: 12px;
+  position: relative;
 }
-
-.page-header h1 {
-  color: #333;
-  margin: 0;
+.page-header-title h1 {
+  font-size: 24px;
+  color: #1A8CAB;
+} 
+.team-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  background-color: #fff;
+  border-radius: 16px;
 }
-
-.employees-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
+.team-table th,
+.team-table td {
+  padding: 12px 20px; /* Add horizontal padding for proper spacing */
+  text-align: left; /* Align text to the left for better readability */
 }
-
-.employee-card {
-  background: white;
-  border-radius: 12px;
-  padding: 20px;
-  text-align: center;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e0e0e0;
+.team-table th {
+  padding: 25px 20px; /* Increase padding for better spacing between headings */
+  text-align: left; /* Keep text aligned to the left */
+  color: rgb(2, 2, 2);
 }
+.team-table td {
+  font-size: 14px; /* Decrease the size of the content */
+}
+.team-table tbody tr {
+    border-bottom: 1px solid #e0e0e0; /* Add lines between rows */
+  }
 
-.employee-image {
-  width: 80px;
-  height: 80px;
+.avatar-circle {
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  margin-bottom: 15px;
+  background-color: #1a8cab27;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: normal;
+  color: #1A8CAB;
 }
-
-.employee-card h3 {
-  margin: 0 0 10px 0;
-  color: #333;
-}
-
-.employee-card p {
-  margin: 5px 0;
-  color: #666;
+.add-employee-button {
+  position: relative; /* Change position to relative */
+  float: right; /* Align the button to the top-right */
+  margin-top: -30px; /* Adjust margin to prevent overlap */
+  padding: 7px 14px;
+  background-color: #1A8CAB;
+  color: white;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
   font-size: 14px;
 }
-
-.employee-actions {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  margin-top: 15px;
+.add-employee-button:hover {
+  background-color: #0a5158;
 }
 
+
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #D9D9D985;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.modal {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 500px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.37);
+}
+.modal-title {
+  font-size: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #1A8CAB;
+
+}
+.form-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+.form-input, .form-textarea {
+  flex: 1;
+  padding: 6px;
+  background-color: #F2F0F0;
+  border: 1px solid #F2F0F0;
+  border-radius: 16px;
+  font-size: 11px;
+}
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 270px;
+}
 .btn {
   padding: 8px 16px;
   border: none;
-  border-radius: 6px;
+  border-radius: 26px;
   cursor: pointer;
-  font-size: 12px;
-  transition: all 0.3s ease;
 }
-
 .btn-primary {
-  background: #4a90e2;
+  background: #1A8CAB;
   color: white;
 }
-
-.btn-outline {
-  background: transparent;
-  border: 1px solid #4a90e2;
-  color: #4a90e2;
+.btn-secondary {
+  background: #ccc;
+  color: black;
 }
-
-.btn-danger {
-  background: #dc3545;
-  color: white;
+.team-table td i {
+  color: #1A8CAB;
 }
 </style>

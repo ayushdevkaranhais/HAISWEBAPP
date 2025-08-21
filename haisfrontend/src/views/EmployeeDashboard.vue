@@ -32,7 +32,7 @@
           </li>
         </ul>
         <div class="card-actions">
-          <button class="btn btn-primary" @click="navigateTo('assigned-tasks')">Check More</button>
+          <button class="btn btn-primary" @click="navigateTo('AssignedTasks')">Check More</button>
         </div>
       </div>
 
@@ -40,7 +40,7 @@
       <div class="add-leave-card">
         <h3>Add Leave</h3>
         <div class="form-row">
-          <input type="number" v-model="newLeave.days" placeholder="No. of Days" class="form-input" min="1" max="10" />
+          <input type="number" v-model="newLeave.days" placeholder="Select Days" class="form-input" min="1" max="10" />
           <input type="date" v-model="newLeave.from" class="form-input" />
           <input type="date" v-model="newLeave.till" class="form-input" />
           <select v-model="newLeave.leaveType" class="form-input">
@@ -62,24 +62,30 @@
         <h3>Add Today's Log</h3>
         <form @submit.prevent="submitLog">
           <div class="form-row">
-            <input type="date" class="form-input" />
-            <select class="form-select">
-              <option>Select Project</option>
+            <input type="date" class="form-input" v-model="logForm.date" />
+            <select class="form-select" v-model="logForm.project">
+              <option value="" disabled selected>Select Project</option>
+              <option value="Project A">Project A</option>
+              <option value="Project B">Project B</option>
             </select>
-            <select class="form-select">
-              <option>Select Sub-project</option>
+            <select class="form-select" v-model="logForm.subProject">
+              <option value="" disabled selected>Select Sub-project</option>
+              <option value="Sub-project A">Sub-project A</option>
+              <option value="Sub-project B">Sub-project B</option>
             </select>
-            <select class="form-select">
-              <option>Select Task</option>
+            <select class="form-select" v-model="logForm.task">
+              <option value="" disabled selected>Select Task</option>
+              <option value="Task A">Task A</option>
+              <option value="Task B">Task B</option>
             </select>
           </div>
           <div class="form-row">
-            <input type="text" placeholder="Add Task details" class="form-input" />
-            <input type="text" placeholder="Task id" class="form-input" />
-            <input type="text" placeholder="Hours Spend" class="form-input" />
+            <input type="text" placeholder="Description" class="form-input" v-model="logForm.details" />
+            <input type="text" placeholder="Task id" class="form-input" v-model="logForm.taskId" />
+            <input type="text" placeholder="Hours Spend" class="form-input" v-model="logForm.hoursSpent" />
           </div>
           <div class="card-actions">
-            <button type="submit" class="btn btn-primary">Update</button>
+            <button type="submit" class="btn btn-primary">Add</button>
           </div>
         </form>
       </div>
@@ -124,19 +130,26 @@ export default {
         return;
       }
       const newApplication = {
-        id: this.leaveApplications.length + 1,
-        employeeName: this.currentUser, // Automatically use the current user's name
+        id: Date.now(),
+        employeeName: this.currentUser,
         ...this.newLeave,
         status: 'Pending'
       };
-      this.leaveApplications.push(newApplication);
+      this.$store.dispatch('submitLeave', newApplication);
+      alert('Leave Request Send Successfully');
       this.resetForm();
     },
-    addLog() {
-      console.log('Adding log entry:', this.logForm)
-      // Add log entry logic here
-      alert('Log entry added successfully!')
-      this.resetLogForm()
+    submitLog() {
+      if (!this.logForm.project || !this.logForm.hoursSpent) {
+        alert('Please add all fields.');
+        return;
+      }
+      const newLog = { ...this.logForm, description: this.logForm.details, id: Date.now() };
+      const existingLogs = JSON.parse(localStorage.getItem('dayLogs')) || [];
+      existingLogs.push(newLog);
+      localStorage.setItem('dayLogs', JSON.stringify(existingLogs));
+      alert('Log entry added successfully!');
+      this.resetLogForm();
     },
     resetForm() {
       this.newLeave = {
@@ -157,6 +170,9 @@ export default {
         taskId: '',
         hoursSpent: ''
       }
+    },
+    navigateTo(route) {
+      this.$router.push({ name: route });
     }
   }
 }
@@ -289,6 +305,13 @@ export default {
   margin-left: 6px; /* Added left margin for spacing */
 }
 
+/* Adjusted right padding for all user input boxes in Add Leave card */
+.add-leave-card .form-input,
+.add-leave-card .form-select {
+  padding-right: 12px; /* Set right padding to match left padding */
+  margin-right: 6px; /* Added right margin for spacing */
+}
+
 /* Adjusted left padding for all user input boxes in Add Today's Log card */
 .add-log-card .form-input,
 .add-log-card .form-select {
@@ -349,6 +372,11 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   min-height: 268px;
+  padding-right: 30px; /* Added right padding for spacing */
+  
+}
+.add-leave-card .form-action {
+  align-self: flex-end; /* Align the button to the right */
 }
 
 .add-leave-card h3 {
@@ -360,8 +388,8 @@ export default {
 
 /* Reduced margin-bottom between Add Leave and input fields */
 .add-leave-card .form-row {
-  margin-bottom: 18px; /* Reduced margin */
-  gap: 10px; /* Add proper gap between input boxes */
+  margin-bottom: -1px; /* Reduced margin for compact spacing */
+  gap: 12px; /* Add proper gap between input boxes */
 }
 
 .add-leave-card .form-input[placeholder="Leave Description"] {
@@ -400,19 +428,19 @@ export default {
 }
 
 .add-log-card {
-  width: 100%;
-  max-width: 100%;
-  min-width: 320px;
-  height: auto;
+ 
+  height: 268px;
   background: linear-gradient(135deg, #DDE5F8, rgba(234, 234, 234, 0.54));
   border-radius: 16px;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-  padding: 24px;
+  padding: 20px; /* Increased padding width for better spacing */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin: 0 auto;
+  min-height: 268px;
+  
 }
+
 
 /* Ensured responsiveness for Add Leave and Add Today's Log cards */
 .add-leave-card,
@@ -427,11 +455,11 @@ export default {
 .latest-task-card h3,
 .add-leave-card h3,
 .add-log-card h3 {
-  margin-bottom: 15px; /* Updated to look impressive */
+  margin-bottom: 2px; /* Updated to look impressive */
 }
 
 .add-leave-card h3 {
-  margin-bottom: 1px;
+  margin-bottom: -1px;
 }
 
 /* Adding gap between heading and content in Assign Task card */
@@ -460,7 +488,7 @@ export default {
 }
 
 .add-log-card h3 {
-font-weight: normal;
+  font-weight: normal;
   font-size: 20px;
   margin-bottom: 20px; /* Added gap for better visual appeal */
 
@@ -481,14 +509,14 @@ font-weight: normal;
 .add-log-card .card-actions {
   margin-top: auto;
   display: flex;
-  justify-content: flex end;
+  justify-content: flex-end;
 }
 
 
 /* Adjusted left padding for Add Today's Log card heading */
 .add-log-card h3 {
-  padding-left: 8px; /* Added left padding for spacing */
-  margin-left: 6px; /* Added left margin for spacing */
+  padding-left: 1px; /* Added left padding for spacing */
+  margin-left: 1px; /* Added left margin for spacing */
 }
 
 /* Reduced gap between Add Today's Log heading and card header */

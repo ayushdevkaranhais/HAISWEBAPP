@@ -55,11 +55,13 @@ export default {
         till: '',
         leaveType: '',
         reason: ''
-      },
-      leaveApplications: [
-       
-      ]
+      }
     };
+  },
+  computed: {
+    leaveApplications() {
+      return this.$store.getters.getLeaveApplications;
+    }
   },
   methods: {
     getInitials(name) {

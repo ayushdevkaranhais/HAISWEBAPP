@@ -126,6 +126,7 @@
   </div>
 </template>
 
+
 <script>
 export default {
   name: 'DashboardView',
@@ -149,54 +150,43 @@ export default {
         {
           id: 1,
           name: 'Girish Verma',
-          avatar: 'https://via.placeholder.com/32x32/4a90e2/ffffff?text=GV'
+          avatar: 'https://randomuser.me/api/portraits/men/32.jpg'
         },
         {
           id: 2,
           name: 'Jitender Chauhan',
-          avatar: 'https://via.placeholder.com/32x32/4a90e2/ffffff?text=JC'
+          avatar: 'https://randomuser.me/api/portraits/men/33.jpg'
         },
         {
           id: 3,
           name: 'Manohar Thakur',
-          avatar: 'https://via.placeholder.com/32x32/4a90e2/ffffff?text=MT'
+          avatar: 'https://randomuser.me/api/portraits/men/34.jpg'
         }
       ]
-    }
+    };
   },
   methods: {
     createProject() {
-      console.log('Creating project:', this.projectForm)
-      // Add project creation logic here
+      console.log('Creating project:', this.projectForm);
     },
     assignTask() {
-      console.log('Assigning task:', this.taskForm)
-      // Add task assignment logic here
-    },
-    handleFileUpload(event) {
-      const file = event.target.files[0]
-      console.log('File uploaded:', file)
-      // Handle file upload logic here
+      console.log('Assigning task:', this.taskForm);
     }
   }
-}
+};
 </script>
 
 <style scoped>
-/* Set font-weight to normal for all content on the page */
-* {
-  font-weight: normal;
-}
-
 .dashboard {
   width: 100%;
   margin: 0 auto;
-  padding: 30px 38px 25px;
+  padding: 18px 38px 25px;
   box-sizing: border-box;
+  background-color: #F0F0F0; /* Updated background color for the dashboard */
 }
 
 .dashboard-header {
-  display: flex;
+ display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 38px;
@@ -206,7 +196,6 @@ export default {
 .welcome-section h1.dashboard-title {
   font-size: 24px;
   font-weight: normal;
-  margin: 0;
   color: #333;
 }
 
@@ -223,7 +212,7 @@ export default {
 }
 
 .user-avatar img {
-  width: 50px;
+ width: 50px;
   height: 50px;
   border-radius: 50%;
   object-fit: cover;
@@ -254,14 +243,14 @@ export default {
   background: white;
   border-radius: 16px;
   padding: 20px;
+  padding-left: 30px;
+  padding-right: 30px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.05);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 268px;
-  width: 100%;
   box-sizing: border-box;
-  position: relative;
+
 }
 
 .card-actions {
@@ -294,6 +283,16 @@ export default {
   margin-top: 12px;
 }
 
+/* Add space between Create button and description box in Create New Project card */
+.project-form .card-actions {
+  margin-top: 25px; /* Add spacing */
+}
+
+/* Reduce the size of the description box in Create New Project card */
+.project-form .form-textarea {
+  height: 65px; /* Reduce height */
+}
+
 .card-header {
   display: flex;
   justify-content: space-between;
@@ -312,11 +311,11 @@ export default {
 .form-select,
 .form-textarea {
   width: 100%;
-  padding: 12px 18px;
+  padding: 6px 10px;
   border: 1px solid #d0d5dd;
-  border-radius: 30px;
+  border-radius: 15px;
   border-color: #3333333d;
-  font-size: 14px;
+  font-size: 10px;
   background-color: transparent; 
   color: #333;
   resize: none;
@@ -329,7 +328,7 @@ export default {
 .form-input:focus,
 .form-select:focus,
 .form-textarea:focus {
-  border-color: #000000; /* Optional: blue border on focus */
+  border-color: #000000b9; /* Optional: blue border on focus */
 }
 
 .project-form .form-textarea {
@@ -420,6 +419,7 @@ export default {
   text-decoration: underline;
   padding: 6px 12px;
   font-size: 14px;
+  margin-bottom: 22px; /* Added gap for better visual appeal */
 }
 .btn-link:hover {
   color: #353535;
@@ -428,6 +428,8 @@ export default {
 .employee-card {
   background: linear-gradient(135deg, #d6ecf4, #ffffff);
   padding: 20px;
+  padding-left: 30px;
+  padding-right: 30px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -444,6 +446,7 @@ export default {
   display: flex;
   align-items: center;
   gap: 12px;
+  margin-bottom: -4px; /* Decreased gap */
 }
 
 .employee-avatar {
@@ -454,8 +457,8 @@ export default {
 }
 
 .employee-name {
-  font-size: 15px;
-  font-weight: 500;
+  font-size: 13px; /* Reduced font size */
+  font-weight: normal;
   color: #333;
 }
 
@@ -472,6 +475,8 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   padding: 20px;
+  padding-left: 30px;
+  padding-right: 30px;
   min-height: 268px;
 }
 
@@ -483,10 +488,11 @@ export default {
 }
 
 .leave-avatar {
-  width: 40px;
+ width: 40px;
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
+  margin-top: -55px; /* Reduced top margin */
 }
 
 .leave-info {
@@ -494,13 +500,24 @@ export default {
   flex-direction: column;
   justify-content: center;
   gap: 4px;
-  font-size: 14px;
+  font-size: 13px;
   color: #333;
+  margin-top: 6px;
+}
+
+.leave-info .leave-description,
+.leave-info .leave-days {
+  font-weight: normal; /* Normal weight */
+  font-size: 14px; /* Bold font size */
+}
+
+.leave-info .leave-name {
+  margin-bottom: 10px; /* Added gap */
 }
 
 .leave-name {
-  font-weight: 600;
-  font-size: 15px;
+  font-weight: normal;
+  font-size: 13px;
 }
 
 .leave-actions {
@@ -510,9 +527,21 @@ export default {
   margin-top: auto;
 }
 
+
 /* Adding gap between heading and content in Assign Task card */
 .assign-task-card h3 {
-  margin-bottom: 12px; /* Added gap for better visual appeal */
+  margin-bottom: 25px; /* Added gap for better visual appeal */
+}
+
+/* Add gap between Assign Task headings and input boxes */
+.assign-task-card .form-group label {
+  margin-bottom: 18px; /* Add spacing below headings */
+  display: block; /* Ensure label is on its own line */
+}
+
+/* Set font weight of all card headings to normal */
+.dashboard-card h3 {
+  font-weight: normal;
 }
 
 @media (max-width: 768px) {
@@ -536,3 +565,4 @@ export default {
   }
 }
 </style>
+

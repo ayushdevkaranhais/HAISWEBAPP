@@ -313,10 +313,10 @@ export default {
 }
 
 .completed-label {
-  background-color: #1A8CAB;
+  background-color: #1FAF38;
   color: #fff;
   border: none;
-  padding: 8px 12px;
+  padding: 4px 10px;
   border-radius: 4px;
   cursor: pointer;
 }
@@ -327,5 +327,6 @@ export default {
   gap: 10px;
   flex-wrap: wrap;
   margin-top: auto;
+
 }
 </style>

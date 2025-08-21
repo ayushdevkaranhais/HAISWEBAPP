@@ -10,7 +10,11 @@
       </div>
 
       <div class="form-group">
-        <input type="text" id="project-name" class="form-input" placeholder="Project Name" v-model="form.project" required />
+        <select id="project-name" class="form-input" v-model="form.project">
+          <option value="" disabled selected>Select Project</option>
+          <option value="Project A">Project A</option>
+          <option value="Project B">Project B</option>
+        </select>
       </div>
 
       <div class="form-group">
@@ -40,7 +44,7 @@
       </div>
 
       <div class="form-group">
-        <input type="number" id="hours-spent" class="form-input" placeholder="Hours Spent" v-model="form.hoursSpent" min="0" step="0.5" required />
+        <input type="number" id="hours-spent" class="form-input" placeholder="Hours Spent" v-model="form.hoursSpent" min="0" step="0.5" />
       </div>
 
       <div class="form-actions">
@@ -69,6 +73,10 @@ export default {
   },
   methods: {
     handleSubmit() {
+      if (!this.form.project || !this.form.hoursSpent) {
+        alert('Please add all fields.');
+        return;
+      }
       const newLog = { ...this.form, id: Date.now() };
       const existingLogs = JSON.parse(localStorage.getItem('dayLogs')) || [];
       existingLogs.push(newLog);
@@ -136,6 +144,12 @@ export default {
 .form-textarea {
   resize: none;
   border-radius: 15px;
+}
+.form-input#sub-project-name,
+.form-input#task-id,
+.form-textarea#description,
+.form-input#hours-spent {
+  color: #000000;
 }
 .form-actions {
   display: flex;

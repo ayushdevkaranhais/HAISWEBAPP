@@ -113,28 +113,29 @@ export default {
   color: #1A8CAB;
 } 
 .team-table {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 20px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   width: 100%;
-  box-sizing: border-box;
-  position: relative;
-  min-height: 480px; /* Increase the height of the card */
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  background-color: #fff;
+  border-radius: 16px;
 }
 .team-table th,
 .team-table td {
-  padding: 10px 20px; /* Add horizontal padding for proper spacing */
+  padding: 12px 20px; /* Add horizontal padding for proper spacing */
   text-align: left; /* Align text to the left for better readability */
 }
 .team-table th {
-  padding: 15px 25px; /* Increase padding for better spacing between headings */
+  padding: 25px 20px; /* Increase padding for better spacing between headings */
   text-align: left; /* Keep text aligned to the left */
   color: rgb(2, 2, 2);
 }
+.team-table td {
+  font-size: 14px; /* Decrease the size of the content */
+}
+.team-table tbody tr {
+    border-bottom: 1px solid #e0e0e0; /* Add lines between rows */
+  }
+
 
 .avatar-circle {
   width: 40px;

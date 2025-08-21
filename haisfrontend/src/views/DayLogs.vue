@@ -24,8 +24,15 @@
               <td>{{ log.subProject }}</td>
               <td>{{ log.task }}</td>
               <td>{{ log.taskId }}</td>
-              <td>{{ log.description }}</td>
+              <td>
+                <span class="description-text" :title="log.description">
+                  {{ log.description.length > 50 ? log.description.substring(0, 50) + '' : log.description }}
+                </span>
+              </td>
               <td>{{ log.hoursSpent }}</td>
+              <td>
+                <button @click="deleteLog(log.id)" class="delete-icon" title="Delete">🗑️</button>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -81,7 +88,19 @@ export default {
   methods: {
     navigateToAddLog() {
       this.$router.push('/add-day-logs');
+    },
+    refreshLogs() {
+      const savedLogs = JSON.parse(localStorage.getItem('dayLogs')) || [];
+      this.logs = savedLogs;
+    },
+    deleteLog(logId) {
+      this.logs = this.logs.filter(log => log.id !== logId);
+      localStorage.setItem('dayLogs', JSON.stringify(this.logs));
+      alert('Day log deleted successfully!');
     }
+  },
+  mounted() {
+    this.refreshLogs();
   }
 };
 </script>
@@ -116,7 +135,8 @@ export default {
   width: 100%;
   box-sizing: border-box;
   position: relative;
-  min-height: 480px; /* Increase the height of the card */
+  min-height: 250px; /* Increase the height of the card */
+  height: auto; /* Automatically adjust height based on content */
 }
 .log-table {
   width: 100%;
@@ -126,12 +146,12 @@ export default {
 .log-table th,
 .log-table td {
   border: none; /* Remove grid lines from the table */
-  padding: 15px; /* Add equal spacing in all fields */
-  text-align: left;
+  padding: 20px; /* Increased padding for proper spacing between fields */
+  text-align: left; /* Center align the content */
   font-size: 14px; /* Decrease the size of the content */
 }
 .log-table th {
-  font-size: 16px; /* Increase the font size of all table headings */
+  font-size: 16px; /* Reduced font size for table headings */
   color: rgb(12, 12, 12);
   pointer-events: none; /* Disable hover effects on table headings */
 }
@@ -141,9 +161,9 @@ export default {
   cursor: pointer; /* Add pointer cursor on hover */
 }
 .add-log-button {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
+  position: relative; /* Position the button inside the table */
+  margin-top: 10px; /* Add spacing to prevent overlap */
+  align-self: flex-end; /* Center the button within the table */
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -159,5 +179,12 @@ export default {
 }
 .add-log-button:hover {
   background-color: #0a5158;
+}
+.delete-icon {
+  background: none;
+  border: none;
+  color: #FF0000;
+  cursor: pointer;
+  font-size: 12px; /* Reduced font size for smaller icon */
 }
 </style>
