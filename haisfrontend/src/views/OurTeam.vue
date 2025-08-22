@@ -35,65 +35,15 @@ export default {
   name: 'OurTeam',
   data() {
     return {
-      teamMembers: [
-        {
-          id: 1,
-          initials: 'SK',
-          name: 'Shivangi Kumar',
-          email: 'shivangi.kumar@highaltsolutions.in',
-          mobile: '8980675432',
-          joinedOn: 'June, 2023'
-        },
-        {
-          id: 2,
-          initials: 'DB',
-          name: 'Dipanshi Bhardwaj',
-          email: 'dipanshi.bhardwaj@highaltsolutions.in',
-          mobile: '8980675432',
-          joinedOn: 'June, 2024'
-        },
-        {
-          id: 3,
-          initials: 'AD',
-          name: 'Ayush Devkaran',
-          email: 'ayush.devkaran@highaltsolutions.in',
-          mobile: '8980675432',
-          joinedOn: 'March, 2025'
-        },
-        {
-          id: 4,
-          initials: 'AB',
-          name: 'Anuj Bhardwaj',
-          email: 'anuj.bhardwaj@highaltsolutions.in',
-          mobile: '8980675432',
-          joinedOn: 'June, 2015'
-        },
-        {
-          id: 5,
-          initials: 'GV',
-          name: 'Girish Verma',
-          email: 'girish.verma@highaltsolutions.in',
-          mobile: '8980675432',
-          joinedOn: 'June, 2015'
-        },
-        {
-          id: 6,
-          initials: 'VK',
-          name: 'Vivek Kumar',
-          email: 'vivek.kumar@highaltsolutions.in',
-          mobile: '8980675432',
-          joinedOn: 'March, 2022'
-        },
-        {
-          id: 7,
-          initials: 'SB',
-          name: 'Saiyam Bhardwaj',
-          email: 'saiyam.bhardwaj@highaltsolutions.in',
-          mobile: '8980675432',
-          joinedOn: 'August, 2023'
-        }
-      ]
+      teamMembers: [] // Clear all employees initially
     };
+  },
+  methods: {
+    syncEmployees(newEmployee) {
+      this.teamMembers.push(newEmployee); // Add new employee to Our Team table
+    }
+  },
+  mounted() {
   }
 };
 </script>

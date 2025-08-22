@@ -131,6 +131,12 @@ export default {
       }
     };
   },
+  mounted() {
+    const savedEmployees = localStorage.getItem('teamMembers');
+    if (savedEmployees) {
+      this.teamMembers = JSON.parse(savedEmployees); // Load employees from local storage
+    }
+  },
   methods: {
     addEmployee() {
       const initials = `${this.newEmployee.firstName.charAt(0)}${this.newEmployee.lastName.charAt(0)}`.toUpperCase();
@@ -151,6 +157,7 @@ export default {
         confirmPassword: this.newEmployee.confirmPassword
       };
       this.teamMembers.push(newMember);
+      localStorage.setItem('teamMembers', JSON.stringify(this.teamMembers)); // Save employees to local storage
       this.showAddEmployeeModal = false;
       this.newEmployee = {
         firstName: '',
@@ -176,9 +183,10 @@ export default {
         const updatedMember = {
           ...this.selectedEmployee,
           name: `${this.selectedEmployee.firstName} ${this.selectedEmployee.lastName}`,
-          initials: `${this.selectedEmployee.firstName.charAt(0)}${this.selectedEmployee.lastName.charAt(0)}`.toUpperCase() // Update avatar initials dynamically
+          initials: `${this.selectedEmployee.firstName.charAt(0)}${this.selectedEmployee.lastName.charAt(0)}`.toUpperCase()
         };
         this.teamMembers.splice(index, 1, updatedMember);
+        localStorage.setItem('teamMembers', JSON.stringify(this.teamMembers)); // Save updated employees to local storage
       }
       this.showInfoModal = false;
     }

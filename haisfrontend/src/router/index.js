@@ -11,6 +11,7 @@ import OurTeam from '../views/OurTeam.vue'
 import AssignedTasks from '../views/AssignedTasks.vue'
 import Login from '../views/Login.vue'
 import AddDayLogs from '../views/AddDayLogs.vue'
+import CreateAssignProject from '../views/CreateAssignProject.vue'
 
 const routes = [
   {
@@ -72,6 +73,11 @@ const routes = [
     path: '/add-day-logs',
     name: 'AddDayLogs',
     component: AddDayLogs
+  },
+  {
+    path: '/create-assign-project',
+    name: 'CreateAssignProject',
+    component: CreateAssignProject
   }
 ]
 

@@ -25,6 +25,12 @@
               Employees
             </router-link>
           </li>
+           <li class="nav-item">
+             <router-link to="/create-assign-project" class="nav-link" :class="{ active: $route.path === '/create-assign-project' }">
+               <span class="nav-icon">📁</span>
+               Create/Assign Project
+             </router-link>
+           </li>
           <li class="nav-item">
             <router-link to="/tasks" class="nav-link" :class="{ active: $route.path === '/tasks' }">
               <span class="nav-icon">⚙️</span>

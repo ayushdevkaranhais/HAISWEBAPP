@@ -1,51 +1,81 @@
 <template>
   <div class="tasks">
-    <div class="page-header">
-      <h1>Create/Assign Task</h1>
+    <div class="task-header">
+      <button :class="{ active: activeTab === 'create' }" @click="activeTab = 'create'">Create New Task</button>
+      <button :class="{ active: activeTab === 'assign' }" @click="activeTab = 'assign'">Assign Task</button>
+    </div>
+    <div v-if="activeTab === 'create'" class="task-form">
+      <div class="form-field">
+        <input type="text" v-model="newTask.projectName" class="form-input" placeholder="Project Name " />
+        <i class="info-icon">▼</i>
+      </div>
+      <div class="form-field">
+        <input type="text" v-model="newTask.subProjectName" class="form-input" placeholder="Sub-Project Name" />
+        <i class="info-icon">▼</i>
+      </div>
+      <div class="form-field">
+        <input type="text" v-model="newTask.taskName" class="form-input" placeholder="Task Name" />
+      </div>
+      <div class="form-field">
+        <textarea v-model="newTask.description" class="form-textarea" rows="3" placeholder="Description"></textarea>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary" @click="createTask">Create Task</button>
+      </div>
     </div>
     
-    <div class="task-form-container">
-      <div class="task-card">
-        <h2>Create New Task</h2>
-        <form @submit.prevent="createTask">
-          <div class="form-row">
-            <div class="form-group">
-              <label>Task Title</label>
-              <input v-model="newTask.title" type="text" class="form-input" placeholder="Enter task title" />
-            </div>
-            <div class="form-group">
-              <label>Project</label>
-              <select v-model="newTask.project" class="form-select">
-                <option value="">Select Project</option>
-                <option value="project1">Project 1</option>
-                <option value="project2">Project 2</option>
-              </select>
-            </div>
-          </div>
+    <div v-if="activeTab === 'assign'" class="task-form">
+      <div class="form-field">
+        <input type="text" v-model="assignTask.projectName" class="form-input" placeholder="Project Name " />
+        <i class="info-icon">▼</i>
+      </div>
+      <div class="form-field">
+        <input type="text" v-model="assignTask.subProjectName" class="form-input" placeholder="Sub-Project Name" />
+        <i class="info-icon">▼</i>
+      </div>
+      <div class="form-field">
+        <input type="text" v-model="assignTask.taskName" class="form-input" placeholder="Task Name" />
+      </div>
+      <div class="form-field">
+        <textarea v-model="assignTask.description" class="form-textarea" rows="3" placeholder=" Task Description"></textarea>
+      </div>
+      
+      <!-- Date fields row -->
+      <div class="form-row date-fields-row">
+        <div class="form-field">
+          <input type="date" v-model="assignTask.startDate" class="form-input" placeholder="Start Date:" />
           
-          <div class="form-row">
-            <div class="form-group">
-              <label>Assignee</label>
-              <select v-model="newTask.assignee" class="form-select">
-                <option value="">Select Assignee</option>
-                <option value="girish">Girish Verma</option>
-                <option value="jitender">Jitender Chauhan</option>
-                <option value="manohar">Manohar Thakur</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Due Date</label>
-              <input v-model="newTask.dueDate" type="date" class="form-input" />
-            </div>
-          </div>
+        </div>
+        <div class="form-field">
+          <input type="date" v-model="assignTask.dueDate" class="form-input" placeholder="Due Date:" />
           
-          <div class="form-group">
-            <label>Description</label>
-            <textarea v-model="newTask.description" class="form-textarea" rows="4" placeholder="Task description"></textarea>
-          </div>
-          
-          <button type="submit" class="btn btn-primary">Create Task</button>
-        </form>
+        </div>
+      </div>
+      
+      <!-- Status and Task ID row -->
+      <div class="form-row">
+        <div class="form-field">
+          <select v-model="assignTask.status" class="form-input">
+            <option value="">Status</option>
+            <option value="pending">Pending</option>
+            <option value="in-progress">In Progress</option>
+            <option value="completed">Completed</option>
+          </select>
+        
+        </div>
+        <div class="form-field">
+          <input type="text" v-model="assignTask.taskId" class="form-input" placeholder="Task Id" />
+        </div>
+      </div>
+      
+      <!-- Assignees field -->
+      <div class="form-field">
+        <input type="text" v-model="assignTask.assignees" class="form-input" placeholder="Assignees" />
+        <i class="info-icon">▼</i>
+      </div>
+      
+      <div class="form-actions">
+        <button class="btn btn-primary" @click="assignTaskMethod">Assign Task</button>
       </div>
     </div>
   </div>
@@ -53,108 +83,177 @@
 
 <script>
 export default {
-  name: 'TasksView',
+  name: 'TasksPage',
   data() {
     return {
+      activeTab: 'create',
       newTask: {
-        title: '',
-        project: '',
-        assignee: '',
-        dueDate: '',
+        projectName: '',
+        subProjectName: '',
+        taskName: '',
         description: ''
+      },
+      assignTask: {
+        projectName: '',
+        subProjectName: '',
+        taskName: '',
+        description: '',
+        startDate: '',
+        dueDate: '',
+        status: '',
+        taskId: '',
+        assignees: ''
       }
-    }
+    };
   },
   methods: {
     createTask() {
-      console.log('Creating task:', this.newTask)
-      // Add task creation logic here
+      console.log('Task Created:', this.newTask);
+      this.newTask = {
+        projectName: '',
+        subProjectName: '',
+        taskName: '',
+        description: ''
+      };
+    },
+    assignTaskMethod() {
+      console.log('Task Assigned:', this.assignTask);
+      this.assignTask = {
+        projectName: '',
+        subProjectName: '',
+        taskName: '',
+        description: '',
+        startDate: '',
+        dueDate: '',
+        status: '',
+        taskId: '',
+        assignees: ''
+      };
     }
   }
-}
+};
 </script>
 
 <style scoped>
 .tasks {
-  max-width: 800px;
+  width: 100%;
   margin: 0 auto;
+  padding: 18px 38px 25px;
+  box-sizing: border-box;
 }
 
-.page-header h1 {
-  color: #333;
-  margin-bottom: 30px;
+.task-header {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 5px;
+  position: relative;
 }
 
-.task-card {
-  background: white;
-  border-radius: 12px;
+.task-header button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+  padding: 10px 30px;
+  border-bottom: 2px solid transparent;
+  color: #666;
+}
+
+.task-header button.active {
+  border-bottom: 2px solid #1A8CAB;
+  color: #1A8CAB;
+  position: relative;
+  z-index: 2;
+}
+
+.tab-underline {
+  width: 100%;
+  height: 2px;
+  background: #EAEAEA;
+  margin-top: -2px;
+  margin-bottom: 24px;
+}
+
+.task-form {
+  width: 100%;
+  background: #F0F0F0;
   padding: 30px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  
+  
 }
 
-.task-card h2 {
-  margin: 0 0 25px 0;
-  color: #333;
+.form-field {
+  margin-bottom: 20px;
+  position: relative;
 }
 
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
-}
-
-.form-group {
   margin-bottom: 20px;
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: 8px;
-  color: #333;
-  font-weight: 500;
+.form-row .form-field {
+  margin-bottom: 0;
 }
 
-.form-input,
-.form-select,
+.date-fields-row {
+  margin-top: 20px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #EAEAEA;
+  border-radius: 67px;
+  font-size: 14px;
+  box-sizing: border-box;
+  background: #EAEAEA;
+}
+
 .form-textarea {
   width: 100%;
-  padding: 12px;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
+  padding: 10px 15px;
+  border: 1px solid #EAEAEA;
+  border-radius: 15px;
   font-size: 14px;
-  background: #f8f9fa;
+  resize: none;
+  font-family: inherit;
+  box-sizing: border-box;
+  background: #EAEAEA;
+  margin-bottom: -5px;
 }
 
-.form-input:focus,
-.form-select:focus,
-.form-textarea:focus {
-  outline: none;
-  border-color: #4a90e2;
-  background: white;
+.info-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 16px;
 }
 
-.btn {
-  padding: 12px 24px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.3s ease;
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 30px;
 }
 
 .btn-primary {
-  background: #4a90e2;
+  background: #1A8CAB;
   color: white;
+  border: none;
+  border-radius: 67px;
+  padding: 8px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .btn-primary:hover {
-  background: #357abd;
-}
-
-@media (max-width: 768px) {
-  .form-row {
-    grid-template-columns: 1fr;
-  }
+  background: #166b85;
 }
 </style>

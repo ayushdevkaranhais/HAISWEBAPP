@@ -40,6 +40,39 @@
         </div>
       </div>
     </div>
+
+    <!-- Admin Leave Requests Card -->
+    <div v-if="$root.userRole === 'admin'" class="leave-requests-card">
+      <h3>Leave Requests</h3>
+      <table class="leave-requests-table">
+        <thead>
+          <tr>
+            <th>Employee Name</th>
+            <th>No. of Days</th>
+            <th>From</th>
+            <th>Till</th>
+            <th>Leave Type</th>
+            <th>Reason</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="request in leaveApplications" :key="request.id">
+            <td>{{ request.employeeName }}</td>
+            <td>{{ request.days }}</td>
+            <td>{{ request.from }}</td>
+            <td>{{ request.till }}</td>
+            <td>{{ request.leaveType }}</td>
+            <td>{{ request.reason }}</td>
+            <td>
+              <button class="btn btn-success" v-if="request.status !== 'Approved'" @click="approveLeave(request)">Approved <span class="status-dot green"></span></button>
+              <button class="btn btn-danger" v-if="request.status !== 'Declined'" @click="declineLeave(request)">Declined <span class="status-dot red"></span></button>
+              <span v-if="request.status === 'Pending'" class="btn btn-pending">Pending <span class="status-dot yellow"></span></span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -92,6 +125,12 @@ export default {
         leaveType: '',
         reason: ''
       };
+    },
+    approveLeave(request) {
+      request.status = 'Approved';
+    },
+    declineLeave(request) {
+      request.status = 'Declined';
     }
   }
 };
@@ -261,5 +300,70 @@ export default {
 
 .btn-primary:hover {
   background-color: #007596;
+}
+
+/* Admin Leave Requests Card */
+.leave-requests-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 24px;
+  margin-top: 24px;
+}
+.leave-requests-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+.leave-requests-table th, .leave-requests-table td {
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 15px;
+  border-bottom: 1px solid #eee;
+}
+.leave-requests-table th {
+  background: #f7f7f7;
+  font-weight: 600;
+}
+.btn-success {
+  background: #27ae60;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 18px;
+  margin-right: 8px;
+  cursor: pointer;
+}
+.btn-danger {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 18px;
+  margin-right: 8px;
+  cursor: pointer;
+}
+.btn-pending {
+  background: #f7b731;
+  color: #fff;
+  border-radius: 8px;
+  padding: 6px 18px;
+  margin-right: 8px;
+}
+.status-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-left: 6px;
+}
+.status-dot.green {
+  background: #27ae60;
+}
+.status-dot.red {
+  background: #e74c3c;
+}
+.status-dot.yellow {
+  background: #f7b731;
 }
 </style>

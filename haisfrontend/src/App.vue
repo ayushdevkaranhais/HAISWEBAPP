@@ -25,6 +25,9 @@ export default {
 
     onMounted(() => {
       userRole.value = localStorage.getItem('userRole') || '';
+        window.addEventListener('storage', () => {
+          userRole.value = localStorage.getItem('userRole') || '';
+        });
     });
 
     return {
