@@ -1,9 +1,9 @@
 <template>
   <div class="leave-page">
     <div class="Leave-header-title">
-      <h1>Add Your leave</h1>
+      <h1>{{ $root.userRole === 'admin' ? 'Leave Requests' : 'Add Your leave' }}</h1>
     </div>
-    <div class="leave-form-card">
+    <div v-if="$root.userRole !== 'admin'" class="leave-form-card">
       <h3>Add Leave</h3>
       <div class="form-row">
         <input type="number" v-model="newLeave.days" placeholder="No. of Days" class="form-input" min="1" max="10" />
@@ -43,7 +43,6 @@
 
     <!-- Admin Leave Requests Card -->
     <div v-if="$root.userRole === 'admin'" class="leave-requests-card">
-      <h3>Leave Requests</h3>
       <table class="leave-requests-table">
         <thead>
           <tr>
@@ -304,16 +303,24 @@ export default {
 
 /* Admin Leave Requests Card */
 .leave-requests-card {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-  padding: 24px;
-  margin-top: 24px;
+  background: #EAEAEA;
+  border-radius: 16px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  padding: 20px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 250px;
 }
 .leave-requests-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 12px;
+  margin-top: 10px;
+  height : auto;
 }
 .leave-requests-table th, .leave-requests-table td {
   padding: 10px 12px;
@@ -322,7 +329,7 @@ export default {
   border-bottom: 1px solid #eee;
 }
 .leave-requests-table th {
-  background: #f7f7f7;
+  background: #EAEAEA;
   font-weight: 600;
 }
 .btn-success {

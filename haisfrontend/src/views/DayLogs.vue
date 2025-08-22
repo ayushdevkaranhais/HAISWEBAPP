@@ -3,42 +3,91 @@
     <div class="page-header">
       <h1>Day Logs</h1>
     </div>
-    <div class="dashboard-content">
-      <div class="dashboard-card">
-        <table class="log-table">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Project</th>
-              <th>Sub-Project</th>
-              <th>Task</th>
-              <th>Task ID</th>
-              <th>Description</th>
-              <th>Hours Spent</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="log in logs" :key="log.id">
-              <td>{{ log.date }}</td>
-              <td>{{ log.project }}</td>
-              <td>{{ log.subProject }}</td>
-              <td>{{ log.task }}</td>
-              <td>{{ log.taskId }}</td>
-              <td>
-                <span class="description-text" :title="log.description">
-                  {{ log.description.length > 50 ? log.description.substring(0, 50) + '' : log.description }}
-                </span>
-              </td>
-              <td>{{ log.hoursSpent }}</td>
-              <td>
-                <button @click="deleteLog(log.id)" class="delete-icon" title="Delete">🗑️</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <button class="add-log-button" @click="navigateToAddLog">+</button>
+    <template v-if="$root.userRole === 'admin'">
+      <div class="daylogs-admin-filters">
+        <div class="filters-row">
+          <input type="text" class="filter-input" placeholder="From - Till" />
+          <span class="calendar-icon">📅</span>
+          <input type="text" class="filter-input" placeholder="Project" />
+          <span class="dropdown-icon">▼</span>
+          <input type="text" class="filter-input" placeholder="Sub-Project" />
+          <span class="dropdown-icon">▼</span>
+          <input type="text" class="filter-input" placeholder="Assigned to" />
+          <span class="dropdown-icon">▼</span>
+          <button class="search-icon">🔍</button>
+        </div>
+        <hr class="filter-underline" />
       </div>
-    </div>
+      <div class="dashboard-content">
+        <div class="dashboard-card">
+          <table class="log-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Task</th>
+                <th>Task Id</th>
+                <th>Description</th>
+                <th>Time Spent</th>
+                <th>Assigned to</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="log in logs" :key="log.id">
+                <td>{{ log.date }}</td>
+                <td>{{ log.task }}</td>
+                <td>{{ log.taskId }}</td>
+                <td>
+                  <span class="description-text" :title="log.description">
+                    {{ log.description.length > 50 ? log.description.substring(0, 50) + '' : log.description }}
+                  </span>
+                </td>
+                <td>{{ log.hoursSpent }}</td>
+                <td>{{ log.assignedTo || 'N/A' }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="total-row">Total : {{ logs.length }}</div>
+        </div>
+      </div>
+    </template>
+    <template v-else>
+      <div class="dashboard-content">
+        <div class="dashboard-card">
+          <table class="log-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Project</th>
+                <th>Sub-Project</th>
+                <th>Task</th>
+                <th>Task ID</th>
+                <th>Description</th>
+                <th>Hours Spent</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="log in logs" :key="log.id">
+                <td>{{ log.date }}</td>
+                <td>{{ log.project }}</td>
+                <td>{{ log.subProject }}</td>
+                <td>{{ log.task }}</td>
+                <td>{{ log.taskId }}</td>
+                <td>
+                  <span class="description-text" :title="log.description">
+                    {{ log.description.length > 50 ? log.description.substring(0, 50) + '' : log.description }}
+                  </span>
+                </td>
+                <td>{{ log.hoursSpent }}</td>
+                <td>
+                  <button @click="deleteLog(log.id)" class="delete-icon" title="Delete">🗑️</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <button class="add-log-button" @click="navigateToAddLog">+</button>
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -113,11 +162,46 @@ export default {
   box-sizing: border-box;
 }
 .page-header {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 .page-header h1 {
   font-size: 24px;
   color: #1A8CAB;
+}
+.daylogs-admin-filters {
+  margin: 0 auto;
+  max-width: 900px;
+  margin-bottom: 10px;
+}
+.filters-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: #eafafd;
+  border-radius: 30px;
+  padding: 8px 18px;
+  margin-bottom: 0;
+}
+.filter-input {
+  background: #eafafd;
+  border: none;
+  border-radius: 30px;
+  padding: 8px 18px;
+  font-size: 14px;
+  min-width: 140px;
+}
+.calendar-icon, .dropdown-icon, .search-icon {
+  font-size: 18px;
+  color: #1A8CAB;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.filter-underline {
+  border: none;
+  border-bottom: 2px solid #1A8CAB;
+  margin-top: -2px;
+  margin-bottom: 18px;
 }
 .dashboard-content {
   display: flex;
@@ -137,11 +221,13 @@ export default {
   position: relative;
   min-height: 250px; /* Increase the height of the card */
   height: auto; /* Automatically adjust height based on content */
+  font-weight: 600px;
 }
 .log-table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
+ 
 }
 .log-table th,
 .log-table td {
@@ -149,11 +235,15 @@ export default {
   padding: 20px; /* Increased padding for proper spacing between fields */
   text-align: left; /* Center align the content */
   font-size: 14px; /* Decrease the size of the content */
+  
+  
 }
 .log-table th {
+  font-weight: 600;
   font-size: 16px; /* Reduced font size for table headings */
   color: rgb(12, 12, 12);
   pointer-events: none; /* Disable hover effects on table headings */
+  ;
 }
 .log-table tr:hover {
   background-color: #F0F0F0; /* Change background color on hover */
@@ -186,5 +276,11 @@ export default {
   color: #FF0000;
   cursor: pointer;
   font-size: 12px; /* Reduced font size for smaller icon */
+}
+.total-row {
+  text-align: right;
+  font-size: 15px;
+  color: #888;
+  margin-top: 8px;
 }
 </style>
