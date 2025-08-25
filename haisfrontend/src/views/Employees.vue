@@ -172,6 +172,7 @@ export default {
         education: '',
         address: ''
       };
+
     },
     showInfo(member) {
       this.selectedEmployee = member;

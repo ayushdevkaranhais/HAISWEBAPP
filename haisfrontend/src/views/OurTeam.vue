@@ -44,6 +44,11 @@ export default {
     }
   },
   mounted() {
+    // Load team members from localStorage
+    const savedEmployees = localStorage.getItem('teamMembers');
+    if (savedEmployees) {
+      this.teamMembers = JSON.parse(savedEmployees);
+    }
   }
 };
 </script>
